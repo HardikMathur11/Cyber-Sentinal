@@ -30,13 +30,24 @@ export default function App() {
 
   const wsRef = useRef<WebSocket | null>(null);
 
-  // Dynamic API Base URL (empty string for local same-origin, or https://...onrender.com for Vercel)
-  const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+  // Dynamic API Base URL (defaults to Render backend when deployed)
+  const API_BASE =
+    import.meta.env.VITE_BACKEND_URL ||
+    (typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? ''
+      : 'https://army-system-09oo.onrender.com');
 
   // Connect WebSocket to real-time execution backend
   useEffect(() => {
     let wsUrl = '';
-    const backendEnv = import.meta.env.VITE_BACKEND_URL;
+    const backendEnv =
+      import.meta.env.VITE_BACKEND_URL ||
+      (typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? ''
+        : 'https://army-system-09oo.onrender.com');
+
     if (backendEnv) {
       const wsProtocol = backendEnv.startsWith('https') ? 'wss:' : 'ws:';
       const cleanHost = backendEnv.replace(/^https?:\/\//, '').replace(/\/$/, '');

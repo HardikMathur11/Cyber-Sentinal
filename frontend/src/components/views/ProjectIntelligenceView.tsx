@@ -77,8 +77,12 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
   const handleCustomAnalyze = async () => {
     if (!customSnippet.trim()) return;
     setAnalyzingCustom(true);
-    playCyberBlip(1100);
-    const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+    const API_BASE =
+      import.meta.env.VITE_BACKEND_URL ||
+      (typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        ? ''
+        : 'https://army-system-09oo.onrender.com');
     try {
       const res = await fetch(`${API_BASE}/api/ai/analyze-code`, {
         method: 'POST',
