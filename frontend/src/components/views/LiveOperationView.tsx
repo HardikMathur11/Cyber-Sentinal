@@ -95,14 +95,16 @@ export const LiveOperationView: React.FC<LiveOperationViewProps> = ({
       {/* Top Controls & Status Bar */}
       <div className="bg-[#FFFFFF] p-5 flex flex-wrap items-center justify-between gap-4 border border-[#DFE4D8] rounded-2xl shadow-[0_2px_12px_rgba(30,40,25,0.05)] cyber-card-glass">
         <div className="flex items-center gap-3">
-          <div className="w-3.5 h-3.5 rounded-full bg-[#43881E] animate-ping" />
+          <div className="w-3.5 h-3.5 rounded-full bg-[#43881E] animate-ping shrink-0" />
           <div>
-            <div className="text-sm font-bold text-[#1E2621] uppercase tracking-wider flex items-center gap-2 font-display">
+            <div className="text-base font-bold text-[#1E2621] flex items-center gap-2.5">
               <span>Live Security Operation Monitor</span>
-              <span className="text-[#2E7F8C] font-mono text-xs">[{run.runId}]</span>
+              <span className="text-[#2E7F8C] font-mono text-xs px-2 py-0.5 rounded-md bg-[#F0F8F9] border border-[#C7E5E9]">
+                {run.runId}
+              </span>
             </div>
             <p className="text-xs text-[#586459] mt-0.5 font-medium">
-              Target: <strong className="text-[#1E2621] font-mono">{run.projectName}</strong> • 12 Coordinated Autonomous Agents • Sandboxed Engine
+              Target: <strong className="text-[#1E2621]">{run.projectName}</strong> • 12 Coordinated Autonomous Agents • Sandboxed Engine
             </p>
           </div>
         </div>
@@ -114,14 +116,14 @@ export const LiveOperationView: React.FC<LiveOperationViewProps> = ({
               onTriggerDemo();
             }}
             disabled={isRunningDemo}
-            className={`px-4 py-2.5 rounded-xl text-xs font-bold font-mono flex items-center gap-2 transition-all shadow-sm ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all shadow-sm ${
               isRunningDemo
                 ? 'bg-[#F1F8EC] border border-[#D1E7C4] text-[#377218] animate-pulse'
                 : 'bg-[#43881E] hover:bg-[#377218] text-white hover:shadow-md active:scale-95'
             }`}
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>{isRunningDemo ? 'SIMULATING REASONING PIPELINE...' : 'EXECUTE SENTINEL CYBER DEMO'}</span>
+            <span>{isRunningDemo ? 'Executing pipeline...' : 'Execute Sentinel Demo'}</span>
           </button>
         </div>
       </div>
@@ -134,12 +136,12 @@ export const LiveOperationView: React.FC<LiveOperationViewProps> = ({
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#DFE4D8]">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-[#43881E]" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#1E2621] font-mono">
+                <h3 className="text-xs font-bold text-[#1E2621]">
                   Multi-Agent Pipeline ({run.agents.length})
                 </h3>
               </div>
-              <span className="text-[10px] text-[#377218] bg-[#F1F8EC] px-2.5 py-0.5 rounded-full border border-[#D1E7C4] font-bold font-mono">
-                12 ACTIVE
+              <span className="text-[10px] text-[#377218] bg-[#F1F8EC] px-2.5 py-0.5 rounded-full border border-[#D1E7C4] font-bold">
+                12 Active
               </span>
             </div>
 

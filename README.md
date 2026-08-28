@@ -13,7 +13,7 @@
 
 ## 1. Executive Summary & Problem Space
 
-**Sentinel-Chain** is an enterprise-grade Cyber Reasoning System (CRS) engineered to detect, exploit, remediate, and certify software vulnerabilities at machine speed. Aligned with modern autonomous program analysis research and the DARPA AI Cyber Challenge (AIxCC), Sentinel-Chain bridges static AST decompilation, dynamic sanitizers, and multi-model AI reasoning into a closed-loop remediation pipeline.
+**Sentinel-Chain** is an enterprise-grade Cyber Reasoning System (CRS) engineered to detect, exploit, remediate, and certify software vulnerabilities at machine speed. Aligned with modern autonomous program analysis research and the DARPA AI Cyber Challenge (AIxCC), Sentinel-Chain combines static AST decompilation, dynamic AddressSanitizer (ASan) runtime instrumentation, and multi-model AI reasoning into a closed-loop remediation pipeline.
 
 Traditional vulnerability scanners rely on statistical pattern matching, producing high rates of false positives that burden security teams. Sentinel-Chain operates on an empirical **Deterministic Proof-of-Vulnerability (PoV)** mandate: **no remediation is synthesized until an instrumented AddressSanitizer (ASan) reproduction crash is extracted and proven against the target runtime.**
 
@@ -81,12 +81,27 @@ flowchart TD
 
 ---
 
-## 4. Key Engineering Implementations
+## 4. Threat Matrix & Sanitizer Coverage
 
-### 4.1. Zero-Bias Verification Sandbox
+Sentinel-Chain provides comprehensive coverage for critical Common Weakness Enumerations (CWEs):
+
+| CWE Classification | Vulnerability Type | Detection Mechanism | Sanitizer Flag | Invariant Enforced |
+| :--- | :--- | :--- | :--- | :--- |
+| **CWE-121** | Stack-based Buffer Overflow | AST Taint Flow + LibFuzzer | `-fsanitize=address` | `dest_capacity >= src_length + 1` |
+| **CWE-122** | Heap-based Buffer Overflow | Dynamic Heap Bounds Instrument | `-fsanitize=address` | `alloc_size >= write_offset + chunk` |
+| **CWE-787** | Out-of-bounds Write | Pointer Arithmetic Analysis | `-fsanitize=bounds` | `0 <= index < array_length` |
+| **CWE-416** | Use After Free (UAF) | Lifetime & Alias Analysis | `-fsanitize=address` | `ptr == nullptr` post-free invariant |
+| **CWE-190** | Integer Overflow / Wrap | Arithmetic Range Inspection | `-fsanitize=undefined` | Safe arithmetic with saturated guards |
+| **CWE-134** | Uncontrolled Format String | AST Call Site Argument Check | Clang Static Analyzer | Enforce string literal format specifiers |
+
+---
+
+## 5. Key Engineering Implementations
+
+### 5.1. Zero-Bias Verification Sandbox
 Standard LLM patch generators frequently suffer from confirmation bias—validating their own flawed logic. Sentinel-Chain introduces a strictly decoupled **Isolated Verification Agent** that re-runs the deterministic PoV in an air-gapped sandbox without access to the patch author's reasoning prompts.
 
-### 4.2. Adversarial "Break-My-Patch" Engine
+### 5.2. Adversarial "Break-My-Patch" Engine
 Before a patch is accepted, the **Break-My-Patch Agent** subjects the candidate diff to automated adversarial mutations:
 - Off-by-one boundary permutations (`<` vs `<=`, `size` vs `size - 1`).
 - Integer overflow and wrap-around injection vectors (`0xFFFFFFFF`, `INT_MAX + 1`).
@@ -109,7 +124,7 @@ bool safe_bounded_copy(char* dest, size_t dest_size, const char* src, size_t src
 }
 ```
 
-### 4.3. Multi-Model LLM Reasoning Oracle
+### 5.3. Multi-Model LLM Reasoning Oracle
 Sentinel-Chain incorporates an intelligent inference provider routing layer:
 - **Primary Inference**: Groq Acceleration Layer (`openai/gpt-oss-120b`, `qwen/qwen3.8-27b`).
 - **Semantic Fallback**: xAI Grok (deep semantic AST reasoning and exploit chain decompilation).
@@ -118,7 +133,7 @@ Sentinel-Chain incorporates an intelligent inference provider routing layer:
 
 ---
 
-## 5. Operational Governance Policies
+## 6. Operational Governance Policies
 
 | Policy Mode | Operational Stance | Human Involvement | Automation Scope |
 | :--- | :--- | :--- | :--- |
@@ -128,7 +143,7 @@ Sentinel-Chain incorporates an intelligent inference provider routing layer:
 
 ---
 
-## 6. Directory Structure
+## 7. Directory Structure
 
 ```
 ├── backend/
@@ -165,13 +180,13 @@ Sentinel-Chain incorporates an intelligent inference provider routing layer:
 
 ---
 
-## 7. Local Installation & Development
+## 8. Local Installation & Development
 
-### 7.1. Prerequisites
+### 8.1. Prerequisites
 - **Node.js**: v20.x or v22.x+
 - **npm** or **pnpm**
 
-### 7.2. Installation Steps
+### 8.2. Installation Steps
 ```bash
 # 1. Clone the repository
 git clone https://github.com/HardikMathur11/Cyber-Sentinal.git
@@ -192,9 +207,9 @@ npm run dev
 
 ---
 
-## 8. Cloud Deployment Guide
+## 9. Cloud Deployment Guide
 
-### 8.1. Backend on Render
+### 9.1. Backend on Render
 - **Repository**: `https://github.com/HardikMathur11/Cyber-Sentinal.git`
 - **Root Directory**: `backend`
 - **Build Command**: `npm install`
@@ -204,7 +219,7 @@ npm run dev
   - `GROQ_API_KEY`: `gsk_...` (or `GEMINI_API_KEY` / `XAI_API_KEY`)
 - **Health Check URL**: `https://army-system-09oo.onrender.com/health`
 
-### 8.2. Frontend on Vercel
+### 9.2. Frontend on Vercel
 - **Repository**: `https://github.com/HardikMathur11/Cyber-Sentinal.git`
 - **Root Directory**: `frontend`
 - **Framework Preset**: `Vite`
@@ -215,7 +230,7 @@ npm run dev
 
 ---
 
-## 9. API & WebSocket Interface
+## 10. API & WebSocket Interface
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -229,7 +244,7 @@ npm run dev
 
 ---
 
-## 10. Cryptographic Proof Certificate Schema
+## 11. Cryptographic Proof Certificate Schema
 
 ```json
 {
@@ -250,6 +265,6 @@ npm run dev
 
 ---
 
-## 11. License
+## 12. License
 
 Distributed under the **MIT License**. See `LICENSE` for details.

@@ -94,12 +94,12 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
       <div className="p-6 sm:p-7 border border-[#DFE4D8] bg-[#FFFFFF] shadow-[0_4px_20px_rgba(30,40,25,0.06)] relative overflow-hidden rounded-2xl cyber-card-glass">
         <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 relative z-10">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-[#43881E] tracking-wider uppercase mb-1.5 font-mono">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#43881E] tracking-wider uppercase mb-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-[#43881E] animate-ping" />
-              <span>AUTONOMOUS CYBER-REASONING FRAMEWORK</span>
+              <span>Autonomous Cyber-Reasoning Framework</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black font-display tracking-tight text-[#1E2621]">
-              <span className="text-gradient-emerald">SENTINEL-CHAIN</span> COMMAND CENTER
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#1E2621]">
+              <span className="text-gradient-emerald">Sentinel-Chain</span> Command Center
             </h2>
             <p className="text-xs sm:text-sm text-[#586459] mt-1.5 max-w-2xl font-medium leading-relaxed">
               End-to-end multi-agent security pipeline: Autonomous reconnaissance, deterministic exploit proof synthesis, verified patch remediation, and mathematical break-my-patch testing.
@@ -108,20 +108,20 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
 
           {/* Cyber Reasoning Paradigm Capsule */}
           <div className="p-4 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8] text-xs space-y-2.5 shadow-2xs shrink-0">
-            <div className="text-[11px] text-[#43881E] uppercase tracking-wider flex items-center gap-1.5 font-bold font-mono">
+            <div className="text-[11px] text-[#43881E] uppercase tracking-wider flex items-center gap-1.5 font-bold">
               <Sparkles className="w-4 h-4 text-[#43881E]" />
-              <span>CYBER-REASONING PIPELINE PARADIGM</span>
+              <span>Remediation Pipeline</span>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-bold font-mono">
-              <span className="px-2 py-0.5 rounded-md bg-[#F0F8F3] text-[#1E824C] border border-[#C8E6D3]">FIND IT</span>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+              <span className="px-2 py-0.5 rounded-md bg-[#F0F8F3] text-[#1E824C] border border-[#C8E6D3]">Find It</span>
               <span className="text-[#818D82]">→</span>
-              <span className="px-2 py-0.5 rounded-md bg-[#F0F8F9] text-[#2E7F8C] border border-[#C7E5E9]">PROVE IT</span>
+              <span className="px-2 py-0.5 rounded-md bg-[#F0F8F9] text-[#2E7F8C] border border-[#C7E5E9]">Prove It</span>
               <span className="text-[#818D82]">→</span>
-              <span className="px-2 py-0.5 rounded-md bg-[#F1F8EC] text-[#43881E] border border-[#D1E7C4]">FIX IT</span>
+              <span className="px-2 py-0.5 rounded-md bg-[#F1F8EC] text-[#43881E] border border-[#D1E7C4]">Fix It</span>
               <span className="text-[#818D82]">→</span>
-              <span className="px-2 py-0.5 rounded-md bg-[#FDF2F4] text-[#D9485D] border border-[#F7CDD4]">ATTACK IT</span>
+              <span className="px-2 py-0.5 rounded-md bg-[#FDF2F4] text-[#D9485D] border border-[#F7CDD4]">Attack It</span>
               <span className="text-[#818D82]">→</span>
-              <span className="px-2 py-0.5 rounded-md bg-[#F0F8F3] text-[#1E824C] border border-[#C8E6D3]">CERTIFY IT</span>
+              <span className="px-2 py-0.5 rounded-md bg-[#F0F8F3] text-[#1E824C] border border-[#C8E6D3]">Certify It</span>
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
               className={`p-5 rounded-2xl bg-[#FFFFFF] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg cursor-default border ${card.borderColor} ${card.glowColor} shadow-[0_2px_12px_rgba(30,40,25,0.05)] cyber-card-glass`}
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold text-[#586459] tracking-wider font-mono">
+                <span className="text-xs font-bold text-[#586459] tracking-wider uppercase">
                   {card.title}
                 </span>
                 <span
@@ -149,7 +149,7 @@ export const CommandCenterView: React.FC<CommandCenterViewProps> = ({
               </div>
 
               <div className="flex items-center justify-between">
-                <div className={`text-3xl sm:text-4xl font-black font-display ${card.textColor}`}>
+                <div className={`text-3xl sm:text-4xl font-extrabold ${card.textColor}`}>
                   {card.value}
                 </div>
                 <div className={`p-3 rounded-xl border shadow-2xs ${card.iconBg}`}>
