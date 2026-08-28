@@ -68,10 +68,12 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
     }
   }, [isOpen]);
 
+  const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
   const checkAiHealth = async () => {
     setCheckingAi(true);
     try {
-      const res = await fetch('/api/llm/status');
+      const res = await fetch(`${API_BASE}/api/llm/status`);
       if (res.ok) {
         const data = await res.json();
         setAiHealthData({
@@ -105,7 +107,7 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
     setTestingInference(true);
     playCyberBlip(1000);
     try {
-      const res = await fetch('/api/ai/analyze-code', {
+      const res = await fetch(`${API_BASE}/api/ai/analyze-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

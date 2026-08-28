@@ -30,11 +30,22 @@ export default function App() {
 
   const wsRef = useRef<WebSocket | null>(null);
 
+  // Dynamic API Base URL (empty string for local same-origin, or https://...onrender.com for Vercel)
+  const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
   // Connect WebSocket to real-time execution backend
   useEffect(() => {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsPort = window.location.port === '3000' ? '3001' : (window.location.port || '3001');
-    const wsUrl = `${protocol}//${window.location.hostname}:${wsPort}/ws/runs`;
+    let wsUrl = '';
+    const backendEnv = import.meta.env.VITE_BACKEND_URL;
+    if (backendEnv) {
+      const wsProtocol = backendEnv.startsWith('https') ? 'wss:' : 'ws:';
+      const cleanHost = backendEnv.replace(/^https?:\/\//, '').replace(/\/$/, '');
+      wsUrl = `${wsProtocol}//${cleanHost}/ws/runs`;
+    } else {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsPort = window.location.port === '3000' ? '3001' : (window.location.port || '3001');
+      wsUrl = `${protocol}//${window.location.hostname}:${wsPort}/ws/runs`;
+    }
 
     const connectWs = () => {
       const ws = new WebSocket(wsUrl);
@@ -110,7 +121,7 @@ export default function App() {
     setCurrentView('live-operation');
 
     try {
-      const res = await fetch('/api/runs/start', {
+      const res = await fetch(`${API_BASE}/api/runs/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ safetyMode })
@@ -172,7 +183,7 @@ export default function App() {
 
     if (uploadPayload.folderFiles && uploadPayload.folderFiles.length > 0) {
       try {
-        const res = await fetch('/api/projects/upload', {
+        const res = await fetch(`${API_BASE}/api/projects/upload`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -220,7 +231,7 @@ export default function App() {
           reader.readAsDataURL(file);
         });
 
-        const res = await fetch('/api/projects/upload', {
+        const res = await fetch(`${API_BASE}/api/projects/upload`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

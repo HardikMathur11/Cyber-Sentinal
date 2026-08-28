@@ -77,8 +77,9 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
     if (!customSnippet.trim()) return;
     setAnalyzingCustom(true);
     playCyberBlip(1100);
+    const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
     try {
-      const res = await fetch('/api/ai/analyze-code', {
+      const res = await fetch(`${API_BASE}/api/ai/analyze-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
