@@ -335,9 +335,9 @@ export default function App() {
           onCloseMobile={() => setMobileSidebarOpen(false)}
         />
 
-        {/* View Router Body */}
+        {/* View Router Body with Smooth Cyber View Transitions */}
         <main className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 lg:p-7 custom-scrollbar bg-[#F3F6EE] min-w-0 w-full">
-          <div className="w-full max-w-[1720px] mx-auto space-y-4 sm:space-y-6 min-w-0">
+          <div key={currentView} className="w-full max-w-[1720px] mx-auto space-y-4 sm:space-y-6 min-w-0 animate-view-fade">
             {currentView === 'command-center' && (
               <CommandCenterView
                 run={securityRun}

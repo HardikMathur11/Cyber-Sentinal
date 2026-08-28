@@ -225,6 +225,93 @@ html, body {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
+.font-display {
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism & Cyber Visual Cards */
+.cyber-card-glass {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #DFE4D8;
+  box-shadow: 0 4px 20px -2px rgba(30, 40, 25, 0.06), 0 2px 6px -1px rgba(30, 40, 25, 0.03);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cyber-card-glass:hover {
+  border-color: #BDC8B3;
+  box-shadow: 0 10px 30px -4px rgba(30, 40, 25, 0.1), 0 4px 12px -2px rgba(30, 40, 25, 0.05);
+}
+
+.dark .cyber-card-glass {
+  background: rgba(18, 26, 20, 0.85);
+  border-color: #233427;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+.dark .cyber-card-glass:hover {
+  border-color: #37533E;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
+}
+
+/* Vibrant Cyber Gradients */
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #2D6313 0%, #43881E 50%, #20626D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #0284C7 0%, #0EA5E9 50%, #06B6D4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-crimson {
+  background: linear-gradient(135deg, #B22D42 0%, #E11D48 50%, #BE123C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #6B21A8 0%, #8B5CF6 50%, #A855F7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cyber Badge Styles with High Contrast */
+.cyber-badge-emerald {
+  background: #F0F8F3;
+  color: #15803D;
+  border: 1px solid #BBF7D0;
+}
+
+.cyber-badge-crimson {
+  background: #FFF1F2;
+  color: #BE123C;
+  border: 1px solid #FECDD3;
+}
+
+.cyber-badge-amber {
+  background: #FFFBEB;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+}
+
+.cyber-badge-cyan {
+  background: #F0F9FF;
+  color: #0369A1;
+  border: 1px solid #BAE6FD;
+}
+
+.cyber-badge-purple {
+  background: #FAF5FF;
+  color: #7E22CE;
+  border: 1px solid #E9D5FF;
+}
+
 /* Cyber Animations & Radar Scans */
 @keyframes cyberPulseGlow {
   0%, 100% {
@@ -249,6 +336,21 @@ html, body {
   50% { opacity: 0.85; }
 }
 
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-view-fade {
+  animation: viewFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .animate-cyber-glow {
   animation: cyberPulseGlow 3s ease-in-out infinite;
 }
@@ -260,4 +362,5 @@ html, body {
 .animate-telemetry {
   animation: telemetryGlitch 2s ease-in-out infinite;
 }
+
 

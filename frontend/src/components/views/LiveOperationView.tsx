@@ -93,16 +93,16 @@ export const LiveOperationView: React.FC<LiveOperationViewProps> = ({
   return (
     <div id="live-operation-view" className="space-y-4 font-sans">
       {/* Top Controls & Status Bar */}
-      <div className="bg-[#FFFFFF] p-4 flex flex-wrap items-center justify-between gap-3 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)]">
+      <div className="bg-[#FFFFFF] p-5 flex flex-wrap items-center justify-between gap-4 border border-[#DFE4D8] rounded-2xl shadow-[0_2px_12px_rgba(30,40,25,0.05)] cyber-card-glass">
         <div className="flex items-center gap-3">
-          <div className="w-3 h-3 rounded-full bg-[#43881E] animate-ping" />
+          <div className="w-3.5 h-3.5 rounded-full bg-[#43881E] animate-ping" />
           <div>
-            <div className="text-xs font-bold text-[#1E2621] uppercase tracking-wider flex items-center gap-2">
+            <div className="text-sm font-bold text-[#1E2621] uppercase tracking-wider flex items-center gap-2 font-display">
               <span>Live Security Operation Monitor</span>
-              <span className="text-[#2E7F8C] font-mono">[{run.runId}]</span>
+              <span className="text-[#2E7F8C] font-mono text-xs">[{run.runId}]</span>
             </div>
-            <p className="text-xs text-[#586459] mt-0.5">
-              Target: <strong className="text-[#1E2621]">{run.projectName}</strong> • 12 Coordinated Autonomous Agents • Docker Sandboxed
+            <p className="text-xs text-[#586459] mt-0.5 font-medium">
+              Target: <strong className="text-[#1E2621] font-mono">{run.projectName}</strong> • 12 Coordinated Autonomous Agents • Sandboxed Engine
             </p>
           </div>
         </div>
@@ -114,14 +114,14 @@ export const LiveOperationView: React.FC<LiveOperationViewProps> = ({
               onTriggerDemo();
             }}
             disabled={isRunningDemo}
-            className={`px-4 py-2 rounded-[10px] text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-bold font-mono flex items-center gap-2 transition-all shadow-sm ${
               isRunningDemo
                 ? 'bg-[#F1F8EC] border border-[#D1E7C4] text-[#377218] animate-pulse'
-                : 'bg-[#43881E] hover:bg-[#377218] text-white'
+                : 'bg-[#43881E] hover:bg-[#377218] text-white hover:shadow-md active:scale-95'
             }`}
           >
             <Play className="w-3.5 h-3.5 fill-current" />
-            <span>{isRunningDemo ? 'SIMULATING EXECUTION...' : 'RUN FULL PIPELINE DEMO'}</span>
+            <span>{isRunningDemo ? 'SIMULATING REASONING PIPELINE...' : 'EXECUTE SENTINEL CYBER DEMO'}</span>
           </button>
         </div>
       </div>
@@ -130,16 +130,16 @@ export const LiveOperationView: React.FC<LiveOperationViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* LEFT COLUMN: Multi-Agent Pipeline (4 Cols on LG) */}
         <div className="lg:col-span-4 space-y-3">
-          <div className="bg-[#FFFFFF] p-4 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)]">
+          <div className="bg-[#FFFFFF] p-4 border border-[#DFE4D8] rounded-2xl shadow-[0_2px_10px_rgba(30,40,25,0.05)] cyber-card-glass">
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#DFE4D8]">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-[#43881E]" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#1E2621]">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#1E2621] font-mono">
                   Multi-Agent Pipeline ({run.agents.length})
                 </h3>
               </div>
-              <span className="text-[10px] text-[#377218] bg-[#F1F8EC] px-2 py-0.5 rounded border border-[#D1E7C4] font-bold">
-                ACTIVE
+              <span className="text-[10px] text-[#377218] bg-[#F1F8EC] px-2.5 py-0.5 rounded-full border border-[#D1E7C4] font-bold font-mono">
+                12 ACTIVE
               </span>
             </div>
 
