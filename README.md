@@ -1,35 +1,33 @@
-# 🛡️ SENTINEL-CHAIN
+# SENTINEL-CHAIN
 ### Autonomous Cyber-Reasoning, Vulnerability Proof Synthesis & Verified Remediation System (CRS)
 
-[![Live API Status](https://img.shields.io/badge/Backend_API-Render_Online-00E599?style=for-the-badge&logo=render&logoColor=white)](https://army-system-09oo.onrender.com/health)
-[![Frontend Status](https://img.shields.io/badge/Frontend-Vercel_Ready-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
-[![TypeScript 5.8](https://img.shields.io/badge/TypeScript-5.8_Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite 6.4](https://img.shields.io/badge/Vite-6.4_React_SPA-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Node.js Runtime](https://img.shields.io/badge/Runtime-Node.js_v22+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![DARPA AIxCC Alignment](https://img.shields.io/badge/Alignment-DARPA_AIxCC_CRS-red?style=for-the-badge&logo=securityscorecard&logoColor=white)](#-darpa-aixcc-alignment)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Backend Status](https://img.shields.io/badge/Backend_API-Render_Online-00E599?style=flat-square&logo=render&logoColor=white)](https://army-system-09oo.onrender.com/health)
+[![Frontend Status](https://img.shields.io/badge/Frontend-Vercel_Ready-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8_Strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6.4_React_SPA-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Runtime](https://img.shields.io/badge/Runtime-Node.js_v22+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Standard Alignment](https://img.shields.io/badge/Standard-DARPA_AIxCC_CRS_Spec-1E2621?style=flat-square)](#darpa-aixcc-alignment)
+[![License](https://img.shields.io/badge/License-MIT-43881E.svg?style=flat-square)](LICENSE)
 
 ---
 
-## 📌 Executive & Architectural Overview
+## 1. Executive Summary & Problem Space
 
-**Sentinel-Chain** is an enterprise-grade, multi-agent **Cyber Reasoning System (CRS)** inspired by the DARPA Artificial Intelligence Cyber Challenge (AIxCC). Built to remediate critical software vulnerabilities at machine speed, Sentinel-Chain automates the entire vulnerability life-cycle across memory-unsafe (C/C++) and managed (Python, Rust, Go, JavaScript) ecosystems without human-in-the-loop bottlenecks.
+**Sentinel-Chain** is an enterprise-grade Cyber Reasoning System (CRS) engineered to detect, exploit, remediate, and certify software vulnerabilities at machine speed. Aligned with modern autonomous program analysis research and the DARPA AI Cyber Challenge (AIxCC), Sentinel-Chain bridges static AST decompilation, dynamic sanitizers, and multi-model AI reasoning into a closed-loop remediation pipeline.
 
-Unlike heuristic static analysis tools that flood engineering teams with noisy alerts, Sentinel-Chain operates on an uncompromising **deterministic proof-of-vulnerability (PoV)** paradigm: **a flaw is only remediated once a mathematically reproducible, instrumented crash payload is synthesized and proven against AddressSanitizer (ASan) runtime instrumentation.**
+Traditional vulnerability scanners rely on statistical pattern matching, producing high rates of false positives that burden security teams. Sentinel-Chain operates on an empirical **Deterministic Proof-of-Vulnerability (PoV)** mandate: **no remediation is synthesized until an instrumented AddressSanitizer (ASan) reproduction crash is extracted and proven against the target runtime.**
 
 ```
-┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
-│   1. RECON &    │ ────► │  2. DETERMINISTIC│ ────► │  3. MINIMAL     │ ────► │  4. ADVERSARIAL │ ────► │  5. PROOF       │
-│   TAINT GRAPH   │       │   PoV PROOF     │       │   INVARIANT FIX │       │   BREAK-PATCH   │       │   CERTIFICATION │
-│ (AST/Symbol Map)│       │ (ASan Crash 10x)│       │ (Zero-Bias Eval)│       │ (1,250+ Fuzzing)│       │ (SHA-256 Ledger)│
-└─────────────────┘       └─────────────────┘       └─────────────────┘       └─────────────────┘       └─────────────────┘
+[ INTAKE & RECON ] ──► [ PROOF-OF-VULNERABILITY ] ──► [ MINIMAL PATCH ] ──► [ ADVERSARIAL STRESS ] ──► [ PROOF LEDGER ]
+  • AST Decompilation    • 10/10 ASan Reproduction      • Bounds Invariants    • 1,250+ Fuzz Mutations    • SHA-256 Ledger
+  • Ingress Taint Flow   • Hex/ASCII Trigger Vector     • Zero-Bias Sandbox    • Zero Bypass Verification  • Audit Seal
 ```
 
 ---
 
-## 🏗️ System Architecture & Workflow Pipeline
+## 2. Multi-Agent 4-Ring Architecture
 
-Sentinel-Chain orchestrates **12 autonomous, specialized security agents** across four sandboxed reasoning rings:
+The system coordinates **12 autonomous, decoupled agent modules** across four isolation boundaries:
 
 ```mermaid
 flowchart TD
@@ -64,42 +62,44 @@ flowchart TD
 
 ---
 
-## 🤖 The 12 Autonomous Agents in Detail
+## 3. Autonomous Agent Specifications
 
-| # | Agent Name | Primary Responsibility | Input Artifacts | Verification Method |
+| ID | Agent Identifier | Operational Domain | Primary Inputs | Validation Method |
 | :--- | :--- | :--- | :--- | :--- |
-| **01** | **Recon Agent** | Build configuration analysis, symbol resolution, and LOC/AST inventory. | Source Codebase | CMake/Makefile AST parse |
-| **02** | **Attack Surface Agent** | Network sockets, external I/O entry-points, and IPC demux analysis. | Symbol Table | Taint path extraction |
-| **03** | **Threat Modeling Agent** | Threat classification, CWE assignment, and attack vector ranking. | Ingress Points | STRIDE / CVSS v3.1 Matrix |
-| **04** | **Static Analysis Agent** | Deep AST rule execution (Semgrep/Clang-Tidy), unbounded pointer checks. | AST Nodes | Abstract Syntax Tree Traversal |
-| **05** | **Fuzzing Agent** | Target instrumentation and coverage-guided mutation crash hunting. | Binary / Source | LibFuzzer + ASan Sanitizers |
-| **06** | **Exploit Validation Agent** | Synthesizes deterministic PoV trigger payloads (`.bin` / hex dump). | Crash Dump | 10/10 Deterministic ASan Trigger |
-| **07** | **Patch Synthesis Agent** | Generates minimal secure diff enforcing formal bounds invariants. | PoV Payload + Source | AST Safe Replacements |
-| **08** | **Verification Agent** | Zero-bias sandbox evaluating patch correctness without bias. | Candidate Patch | Independent Re-execution |
-| **09** | **Break-My-Patch Agent** | Adversarial mutation testing targeting patch boundary logic. | Applied Patch | 1,250+ Fuzzing Mutations |
-| **10** | **Regression Agent** | Runs full test suites (GoogleTest, PyTest, Rust cargo test). | Patched Codebase | Unit & Integration Test Suites |
-| **11** | **Performance Agent** | Measures runtime latency and throughput impact. | Baseline vs Patched | Micro-benchmarking (+2.4% avg) |
-| **12** | **Proof Agent** | Issues tamper-proof cryptographic audit certificates. | All Agent Outputs | SHA-256 Merkle Hash Seal |
+| **AG-01** | **Reconnaissance Agent** | Build systems, symbol tables, and LOC metrics | Source Repository | CMake / AST Symbol Parse |
+| **AG-02** | **Attack Surface Agent** | Network sockets, IPC interfaces, and raw I/O | Symbol Resolution | Taint Path Graph Extraction |
+| **AG-03** | **Threat Modeling Agent** | Threat classification and CVSS scoring | Ingress Endpoints | STRIDE / CVSS v3.1 Matrix |
+| **AG-04** | **Static Analysis Agent** | Deep AST rule execution and unbounded pointers | AST Nodes | Abstract Syntax Tree Traversal |
+| **AG-05** | **Guided Fuzzing Agent** | Target instrumentation and crash exploration | Binary / Source | LibFuzzer + ASan Sanitizers |
+| **AG-06** | **Exploit Validation Agent** | Synthesizes deterministic PoV payloads | Crash Dumps | 10/10 Deterministic ASan Trigger |
+| **AG-07** | **Patch Synthesis Agent** | Generates minimal formal bounds diffs | PoV Payload + Source | Invariant Replacement Diffs |
+| **AG-08** | **Verification Agent** | Decoupled zero-bias verification sandbox | Candidate Patch | Independent Re-execution |
+| **AG-09** | **Break-My-Patch Agent** | Adversarial boundary mutations and stress tests | Applied Patch | 1,250+ Fuzzing Mutations |
+| **AG-10** | **Regression Agent** | Functional test suite execution | Patched Codebase | Unit & Integration Test Suites |
+| **AG-11** | **Performance Agent** | Measures runtime throughput and latency impact | Baseline vs Patched | Micro-benchmarking (+2.4% avg) |
+| **AG-12** | **Proof Agent** | Issues tamper-proof cryptographic audit seals | Agent Verification Log | SHA-256 Merkle Hash Seal |
 
 ---
 
-## ⚡ Core Engineering Highlights
+## 4. Key Engineering Implementations
 
-### 1. Zero-Bias Verification Sandbox
-Standard LLM patch generators frequently suffer from **confirmation bias**—validating their own flawed logic. Sentinel-Chain introduces a strictly decoupled **Isolated Verification Agent** that re-runs the deterministic PoV in an air-gapped sandbox without access to the patch author's reasoning prompts.
+### 4.1. Zero-Bias Verification Sandbox
+Standard LLM patch generators frequently suffer from confirmation bias—validating their own flawed logic. Sentinel-Chain introduces a strictly decoupled **Isolated Verification Agent** that re-runs the deterministic PoV in an air-gapped sandbox without access to the patch author's reasoning prompts.
 
-### 2. Adversarial "Break-My-Patch" Engine
-Before a patch can ever be certified, the **Break-My-Patch Agent** subjects the candidate diff to automated adversarial mutations:
+### 4.2. Adversarial "Break-My-Patch" Engine
+Before a patch is accepted, the **Break-My-Patch Agent** subjects the candidate diff to automated adversarial mutations:
 - Off-by-one boundary permutations (`<` vs `<=`, `size` vs `size - 1`).
 - Integer overflow and wrap-around injection vectors (`0xFFFFFFFF`, `INT_MAX + 1`).
 - Null-byte insertion attacks and truncated header sequences.
 
 ```cpp
-// Candidate Invariant Under Adversarial Evaluation:
+// Certified Memory Boundary Invariant
 bool safe_bounded_copy(char* dest, size_t dest_size, const char* src, size_t src_len) {
-    if (dest == nullptr || src == nullptr || dest_size == 0) return false;
+    if (dest == nullptr || src == nullptr || dest_size == 0) {
+        return false;
+    }
     
-    // Invariant Proof: src_len must strictly fit within allocated dest buffer
+    // Formal Invariant: src_len must strictly fit within allocated dest buffer
     if (src_len >= dest_size) {
         return false; // Bounds violation prevented deterministically
     }
@@ -109,37 +109,26 @@ bool safe_bounded_copy(char* dest, size_t dest_size, const char* src, size_t src
 }
 ```
 
-### 3. Multi-Model LLM Reasoning Oracle
+### 4.3. Multi-Model LLM Reasoning Oracle
 Sentinel-Chain incorporates an intelligent inference provider routing layer:
-- **Groq Acceleration Layer**: Ultra-low latency inference (`openai/gpt-oss-120b`, `qwen/qwen3.8-27b`).
-- **xAI Grok Fallback**: Deep semantic AST reasoning and exploit chain decompilation.
-- **Google Gemini 2.5 Pro**: Complex architectural threat modeling and multi-file invariant synthesis.
-- **Input Discrimination Engine**: Distinguishes between conversational text greetings ("hy", "hello") and real code snippets (`strcpy`, pointer arithmetic, memory writes).
+- **Primary Inference**: Groq Acceleration Layer (`openai/gpt-oss-120b`, `qwen/qwen3.8-27b`).
+- **Semantic Fallback**: xAI Grok (deep semantic AST reasoning and exploit chain decompilation).
+- **Architectural Fallback**: Google Gemini 2.5 Pro (complex threat modeling and multi-file invariant synthesis).
+- **Input Discrimination Engine**: Distinguishes between conversational text greetings ("hy", "hello") and real executable logic (`strcpy`, pointer arithmetic, memory writes).
 
 ---
 
-## 🎛️ Safety Policy Governance
+## 5. Operational Governance Policies
 
-Sentinel-Chain offers three selectable operational policies to fit organizational compliance and military-grade defense postures:
-
-```
-┌──────────────────────────────────────────────────────────────────────────────────┐
-│                               OPERATIONAL POLICIES                              │
-├─────────────────┬────────────────────────────────────────────────────────────────┤
-│ 1. OBSERVE      │ • Read-only telemetry, attack surface mapping, & AST inventory. │
-│                 │ • No active fuzzing or patch modification.                      │
-├─────────────────┼────────────────────────────────────────────────────────────────┤
-│ 2. ASSIST       │ • Full exploit synthesis, PoV verification, & candidate diffs.  │
-│                 │ • Human authorization required before patch application.        │
-├─────────────────┼────────────────────────────────────────────────────────────────┤
-│ 3. AUTONOMOUS   │ • Full closed-loop cyber-reasoning auto-pilot.                 │
-│                 │ • Flaws are detected, proven, patched, and certified in real-time│
-└─────────────────┴────────────────────────────────────────────────────────────────┘
-```
+| Policy Mode | Operational Stance | Human Involvement | Automation Scope |
+| :--- | :--- | :--- | :--- |
+| **`OBSERVE`** | Telemetry and auditing mode. Scans AST and records attack vectors without active fuzzing. | View-only | Passive Logging |
+| **`ASSIST`** | Identifies flaws, synthesizes PoV payloads, and prepares patches. | **Required** for patch approval & commit | Gated Deployment |
+| **`AUTONOMOUS`** | Full auto-pilot mode. Synthesizes PoVs, generates patches, runs Break-My-Patch testing, and auto-applies verified fixes. | Zero human bottleneck | End-to-End Autonomous |
 
 ---
 
-## 📁 Repository Directory Structure
+## 6. Directory Structure
 
 ```
 ├── backend/
@@ -176,50 +165,46 @@ Sentinel-Chain offers three selectable operational policies to fit organizationa
 
 ---
 
-## 🚀 Quickstart & Local Setup
+## 7. Local Installation & Development
 
-### 1. Prerequisites
+### 7.1. Prerequisites
 - **Node.js**: v20.x or v22.x+
 - **npm** or **pnpm**
 
-### 2. Clone the Repository
+### 7.2. Installation Steps
 ```bash
+# 1. Clone the repository
 git clone https://github.com/HardikMathur11/Cyber-Sentinal.git
 cd Cyber-Sentinal
-```
 
-### 3. Start Backend Server
-```bash
+# 2. Setup Backend Server
 cd backend
 npm install
 npm run dev
-# Backend starts on http://localhost:3001
-```
+# Server listening on http://localhost:3001
 
-### 4. Start Frontend Client
-```bash
+# 3. Setup Frontend Client
 cd ../frontend
 npm install
 npm run dev
-# Frontend starts on http://localhost:3000
+# Client running on http://localhost:3000
 ```
-Open **`http://localhost:3000`** in your browser.
 
 ---
 
-## 🌐 Production Cloud Deployment
+## 8. Cloud Deployment Guide
 
-### 1. Backend on Render
+### 8.1. Backend on Render
 - **Repository**: `https://github.com/HardikMathur11/Cyber-Sentinal.git`
 - **Root Directory**: `backend`
 - **Build Command**: `npm install`
 - **Start Command**: `npm start` (or `npx tsx server.ts`)
 - **Environment Variables**:
-  - `PORT`: `3001` (or automatic Render port)
+  - `PORT`: `3001` (or dynamic Render port)
   - `GROQ_API_KEY`: `gsk_...` (or `GEMINI_API_KEY` / `XAI_API_KEY`)
-- **Live Health Endpoint**: `https://army-system-09oo.onrender.com/health`
+- **Health Check URL**: `https://army-system-09oo.onrender.com/health`
 
-### 2. Frontend on Vercel
+### 8.2. Frontend on Vercel
 - **Repository**: `https://github.com/HardikMathur11/Cyber-Sentinal.git`
 - **Root Directory**: `frontend`
 - **Framework Preset**: `Vite`
@@ -230,21 +215,21 @@ Open **`http://localhost:3000`** in your browser.
 
 ---
 
-## 📡 REST & WebSocket API Specification
+## 9. API & WebSocket Interface
 
-| Method | Route | Description |
+| Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| **`GET`** | `/health` | Cloud container health check and timestamp response. |
-| **`GET`** | `/api/llm/status` | Real-time LLM provider latency and API key health audit. |
-| **`POST`** | `/api/ai/analyze-code` | Deep LLM cyber-reasoning for raw code snippets with CWE/diff outputs. |
-| **`POST`** | `/api/projects/upload` | Multipart ZIP or folder upload for full AST decompilation. |
-| **`POST`** | `/api/runs/start-demo` | Triggers the 12-agent orchestration pipeline with live log broadcasting. |
-| **`GET`** | `/api/certificates/:id/verify` | Validates a proof certificate against the SHA-256 Merkle ledger. |
-| **`WSS`** | `/ws/runs` | WebSocket stream broadcasting `STATE_SNAPSHOT` and `STAGE_UPDATE` events. |
+| `GET` | `/health` | Cloud container health check and timestamp response. |
+| `GET` | `/api/llm/status` | Real-time LLM provider latency and API key health audit. |
+| `POST` | `/api/ai/analyze-code` | Deep LLM cyber-reasoning for raw code snippets with CWE/diff outputs. |
+| `POST` | `/api/projects/upload` | Multipart ZIP or folder upload for full AST decompilation. |
+| `POST` | `/api/runs/start-demo` | Triggers the 12-agent orchestration pipeline with live log broadcasting. |
+| `GET` | `/api/certificates/:id/verify` | Validates a proof certificate against the SHA-256 Merkle ledger. |
+| `WSS` | `/ws/runs` | WebSocket stream broadcasting `STATE_SNAPSHOT` and `STAGE_UPDATE` events. |
 
 ---
 
-## 📜 Cryptographic Proof Certificate Example
+## 10. Cryptographic Proof Certificate Schema
 
 ```json
 {
@@ -265,6 +250,6 @@ Open **`http://localhost:3000`** in your browser.
 
 ---
 
-## 📄 License
+## 11. License
 
 Distributed under the **MIT License**. See `LICENSE` for details.
