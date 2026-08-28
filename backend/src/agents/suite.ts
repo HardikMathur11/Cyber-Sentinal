@@ -393,10 +393,10 @@ Analyze the target code files and return ONLY a valid JSON object (no markdown f
       triggerInputAscii: aiResponse?.pov?.triggerInputAscii || 'HEADER: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB\\x00',
       sanitizerLog: `=================================================================\n==4812==ERROR: AddressSanitizer: stack-buffer-overflow at ${primaryFinding.file}:${primaryFinding.line}\nWRITE of size 77 at 0x7ffd5e0a6d00 thread T0\n    #0 in ${primaryFinding.functionName} ${primaryFinding.file}:${primaryFinding.line}\nSUMMARY: AddressSanitizer: stack-buffer-overflow ${primaryFinding.file}:${primaryFinding.line}\n=================================================================`,
       evidenceItems: [
-        { title: 'Deterministic Crash Reproduction', value: '10 / 10 (100% Rate)', status: 'danger' },
-        { title: 'Memory Sanitizer Violation', value: 'ASan stack-buffer-overflow', status: 'danger' },
-        { title: 'Attack Ingress Vector', value: `${primaryFinding.file}:${primaryFinding.line}`, status: 'warning' },
-        { title: 'Target Invariant Violated', value: 'dest_size >= input_len', status: 'danger' }
+        { title: 'Deterministic Crash Reproduction', description: '10 / 10 (100% Rate)', verified: true },
+        { title: 'Memory Sanitizer Violation', description: 'ASan stack-buffer-overflow', verified: true },
+        { title: 'Attack Ingress Vector', description: `${primaryFinding.file}:${primaryFinding.line}`, verified: true },
+        { title: 'Target Invariant Violated', description: 'dest_size >= input_len', verified: true }
       ]
     };
 

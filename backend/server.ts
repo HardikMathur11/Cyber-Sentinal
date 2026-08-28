@@ -27,7 +27,6 @@ let activeUploadDir = fs.existsSync(path.join(__dirname, 'demo-target'))
 async function startServer() {
   const app = express();
   const server = http.createServer(app);
-  const PORT = process.env.PORT || 3001;
 
   // Custom WebSocket Server setup for live execution stream
   const wss = new WebSocketServer({ noServer: true });
@@ -321,74 +320,30 @@ ${trimmed}`;
     }
   });
 
-  // Vite middleware in dev, static serving in prod
-  if (process.env.NODE_ENV !== 'production' && process.env.SERVE_VITE === 'true') {
-    const viteConfigPath = path.resolve(process.cwd(), 'frontend', 'vite.config.ts');
-    const vite = await createViteServer({
-      configFile: fs.existsSync(viteConfigPath) ? viteConfigPath : false,
-      server: {
-        middlewareMode: true,
-        hmr: {
-          server,
-          clientPort: Number(process.env.PORT) || 3000,
-        },
-      },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-    app.use('*', async (req, res, next) => {
-      if (req.originalUrl.startsWith('/api') || req.originalUrl.startsWith('/ws')) {
-        return next();
-      }
-      try {
-        const templatePath = path.resolve(process.cwd(), 'frontend', 'index.html');
-        let template = fs.readFileSync(templatePath, 'utf-8');
-        template = await vite.transformIndexHtml(req.originalUrl, template);
-        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
-      } catch (e: any) {
-        vite.ssrFixStacktrace(e);
-        next(e);
-      }
-    });
-  } else {
-    const distPath = path.join(process.cwd(), 'frontend', 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
-  }
+  // Health Check & Service Root for Cloud Deployments (Render / Railway / Docker)
+  app.get('/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  });
 
-  let attemptPort = Number(process.env.PORT) || 3000;
-  const listenWithFallback = (portToTry: number) => {
-    const onListening = () => {
-      console.log(`\n[SENTINEL-CHAIN] Command Center online at http://localhost:${portToTry}`);
-    };
-
-    const onError = (err: any) => {
-      if (err.code === 'EADDRINUSE') {
-        console.warn(`[SENTINEL-CHAIN] Port ${portToTry} is in use, falling back to port ${portToTry + 1}...`);
-        server.removeListener('listening', onListening);
-        setTimeout(() => {
-          listenWithFallback(portToTry + 1);
-        }, 300);
-      } else {
-        console.error('Server startup error:', err);
-      }
-    };
-
-    server.once('error', onError);
-    server.once('listening', () => {
-      server.removeListener('error', onError);
-      onListening();
+  app.get('/', (req, res) => {
+    res.json({
+      service: 'Sentinel-Chain Autonomous Cyber Reasoning & Remediation Backend',
+      status: 'ONLINE',
+      version: '4.2.0',
+      wsEndpoint: '/ws/runs',
+      health: '/health'
     });
-    server.listen(portToTry);
-  };
+  });
 
-  listenWithFallback(attemptPort);
+  const PORT = Number(process.env.PORT) || 3001;
+  server.listen({ port: PORT, host: '0.0.0.0' }, () => {
+    console.log(`\n[SENTINEL-CHAIN] Backend API & WebSocket Server online at http://0.0.0.0:${PORT}`);
+  });
 }
 
 startServer().catch((err) => {
   console.error('Fatal Server Startup Error:', err);
   process.exit(1);
 });
+
 
