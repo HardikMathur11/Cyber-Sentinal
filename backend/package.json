@@ -4,7 +4,7 @@
   "version": "4.2.0",
   "type": "module",
   "scripts": {
-    "dev": "node --import tsx server.ts",
+    "dev": "npx tsx watch server.ts",
     "start": "node server.ts",
     "lint": "node node_modules/typescript/bin/tsc --noEmit"
   },

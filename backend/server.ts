@@ -13,7 +13,12 @@ import { SecurityRun, SafetyMode } from '../frontend/src/types';
 import { SentinelAgentSuite } from './src/agents/suite';
 import { defaultLLMProvider } from './src/llm/provider';
 
+import { fileURLToPath } from 'url';
+
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let currentRunState: SecurityRun = { ...INITIAL_SECURITY_RUN };
 let activeUploadDir = fs.existsSync(path.join(__dirname, 'demo-target')) 

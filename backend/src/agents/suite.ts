@@ -141,7 +141,7 @@ export class SentinelAgentSuite {
         description: `${fname} (${loc} LOC). ${isSuspicious ? 'Vulnerability detected: Unchecked bounds/memory operation.' : 'Standard operational source module.'}`,
         x: 0,
         y: 0,
-        codePreview: content.slice(0, 400)
+        codePreview: content
       });
     }
 

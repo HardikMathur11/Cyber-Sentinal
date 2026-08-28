@@ -388,10 +388,34 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
       .map(({ node }) => node);
   }, [layout, searchQuery, filterCategory]);
 
+  const allSourceFiles = useMemo(() => {
+    return (baseGraphData.nodes || []).filter((n) => n.type !== 'directory');
+  }, [baseGraphData.nodes]);
+
   const selectedNode = useMemo(() => {
-    const found = baseGraphData.nodes.find((n) => n.id === selectedNodeId);
-    return found || normalizedStructure.root;
-  }, [selectedNodeId, baseGraphData.nodes, normalizedStructure]);
+    const rawNodes = baseGraphData.nodes || [];
+    const direct = rawNodes.find((n) => n.id === selectedNodeId);
+    
+    // If direct node selected has code preview, use it
+    if (direct && direct.type !== 'directory' && direct.codePreview) {
+      return direct;
+    }
+    // If a folder is clicked, preview its first contained source file
+    if (direct && direct.type === 'directory') {
+      const filesInFolder = normalizedStructure.filesByFolder[direct.id] || [];
+      if (filesInFolder.length > 0 && filesInFolder[0].codePreview) {
+        return filesInFolder[0];
+      }
+    }
+    // Default to the primary vulnerable file or first source file
+    return (
+      rawNodes.find((n) => n.status === 'vulnerable' && n.codePreview) ||
+      rawNodes.find((n) => (n.type === 'source' || n.type === 'header') && n.codePreview) ||
+      allSourceFiles[0] ||
+      direct ||
+      normalizedStructure.root
+    );
+  }, [selectedNodeId, baseGraphData.nodes, normalizedStructure, allSourceFiles]);
 
   // Connected edges for hover & selection highlight
   const activeConnectedEdgeIds = useMemo(() => {
@@ -1093,7 +1117,28 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Quick File Switcher */}
+              {allSourceFiles.length > 1 && (
+                <div className="flex items-center gap-1.5 bg-[#FAFBF7] border border-[#DFE4D8] rounded-lg px-2.5 py-1">
+                  <span className="text-[11px] text-[#586459] font-medium">Select File:</span>
+                  <select
+                    value={selectedNode.id}
+                    onChange={(e) => {
+                      const chosen = allSourceFiles.find((f) => f.id === e.target.value);
+                      if (chosen) handleNodeClick(chosen);
+                    }}
+                    className="bg-transparent text-xs font-bold font-mono text-[#1E2621] focus:outline-none cursor-pointer"
+                  >
+                    {allSourceFiles.map((file) => (
+                      <option key={file.id} value={file.id}>
+                        {file.label} ({file.loc || 30} LoC) {file.status === 'vulnerable' ? '⚠️' : '✓'}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase border ${getNodeColor(selectedNode).badge}`}>
                 {selectedNode.status}
               </span>
