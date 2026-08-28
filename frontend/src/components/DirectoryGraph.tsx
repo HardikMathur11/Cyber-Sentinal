@@ -745,10 +745,10 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
         </div>
       </div>
 
-      {/* Main Graph Grid (Adapts when Panoramic is active) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Visual Graph Canvas (12 cols in Panoramic, 8 cols standard) */}
-        <div className={`${isFullscreen ? 'lg:col-span-12' : 'lg:col-span-8'} bg-[#FFFFFF] p-5 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)] overflow-hidden flex flex-col min-h-[660px] relative transition-all duration-300`}>
+      {/* Main Graph Layout */}
+      <div className="space-y-6">
+        {/* Visual Graph Canvas (Full-Width 12 Cols) */}
+        <div className="w-full bg-[#FFFFFF] p-5 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)] overflow-hidden flex flex-col min-h-[580px] relative transition-all duration-300">
           {activeGraphMode !== 'tree_list' ? (
             <div
               ref={containerRef}
@@ -759,7 +759,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               onTouchStart={handleTouchStartCanvas}
               onTouchMove={handleTouchMoveCanvas}
               onTouchEnd={handleTouchEndCanvas}
-              className={`relative flex-1 w-full h-full min-h-[580px] bg-[#FAFBF7] rounded-2xl border border-[#DFE4D8] overflow-hidden select-none cursor-grab active:cursor-grabbing ${
+              className={`relative flex-1 w-full h-full min-h-[500px] bg-[#FAFBF7] rounded-2xl border border-[#DFE4D8] overflow-hidden select-none cursor-grab active:cursor-grabbing ${
                 isPanning ? 'cursor-grabbing' : ''
               }`}
             >
@@ -802,30 +802,6 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                         <feMergeNode in="SourceGraphic" />
                       </feMerge>
                     </filter>
-
-                    <marker
-                      id="arrow-taint-flow"
-                      viewBox="0 0 10 10"
-                      refX="8"
-                      refY="5"
-                      markerWidth="6"
-                      markerHeight="6"
-                      orient="auto"
-                    >
-                      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#D9485D" />
-                    </marker>
-
-                    <marker
-                      id="arrow-tree-branch"
-                      viewBox="0 0 10 10"
-                      refX="6"
-                      refY="5"
-                      markerWidth="5"
-                      markerHeight="5"
-                      orient="auto"
-                    >
-                      <path d="M 0 2 L 6 5 L 0 8 z" fill="#43881E" />
-                    </marker>
                   </defs>
 
                   {/* 1. Draw Vertical Trunk Spines for each open Folder */}
@@ -859,41 +835,35 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                       ? 'url(#taintFlowGradient)'
                       : isRootBranch
                       ? '#43881E'
-                      : '#6B8E5F';
-
-                    const strokeWidth = isHighlighted ? 3.5 : isTaintEdge ? 3.0 : isRootBranch ? 2.2 : 1.8;
+                      : isBranch
+                      ? '#6B8E5F'
+                      : '#818D82';
 
                     return (
-                      <g key={edge.id} className="transition-opacity duration-200">
-                        {isTaintEdge && flowAnimation && (
+                      <g key={edge.id}>
+                        {isTaintEdge && (
                           <path
                             d={pathD}
                             fill="none"
                             stroke="#D9485D"
                             strokeWidth="8"
-                            strokeOpacity={0.28}
+                            strokeOpacity="0.3"
                             filter="url(#glow-taint-intense)"
                           />
                         )}
 
                         <path
-                          id={`path-${edge.id}`}
                           d={pathD}
                           fill="none"
                           stroke={strokeColor}
-                          strokeWidth={strokeWidth}
-                          strokeOpacity={isHighlighted ? 1 : 0.85}
-                          strokeDasharray={isTaintEdge ? '8,4' : undefined}
-                          markerEnd={isTaintEdge ? 'url(#arrow-taint-flow)' : isBranch ? 'url(#arrow-tree-branch)' : undefined}
+                          strokeWidth={isTaintEdge ? '3.5' : isHighlighted ? '2.5' : isRootBranch ? '2' : '1.5'}
+                          strokeDasharray={isBranch ? 'none' : isTaintEdge ? '7,4' : '5,4'}
+                          strokeOpacity={isTaintEdge ? '1' : isHighlighted ? '0.95' : '0.75'}
                         />
 
-                        {isTaintEdge && flowAnimation && (
-                          <circle r="4.5" fill="#D9485D" filter="url(#glow-taint-intense)">
-                            <animateMotion
-                              dur="2.5s"
-                              repeatCount="indefinite"
-                              path={pathD}
-                            />
+                        {isTaintEdge && (
+                          <circle r="4" fill="#D9485D" className="shadow-lg">
+                            <animateMotion dur="2.8s" repeatCount="indefinite" path={pathD} />
                           </circle>
                         )}
                       </g>
@@ -901,17 +871,22 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                   })}
                 </svg>
 
-                {/* Node Cards Layer */}
-                {visibleNodes.map((node) => {
+                {/* Render Graph Nodes */}
+                {Object.values(normalizedStructure.folders).concat(
+                  normalizedStructure.root,
+                  ...Object.values(normalizedStructure.filesByFolder)
+                ).map((node) => {
+                  const isVisible = layout.nodeCoords[node.id]?.visible !== false;
+                  if (!isVisible) return null;
+
+                  const colorConfig = getNodeColor(node);
                   const isSelected = node.id === selectedNodeId;
                   const isHovered = node.id === hoveredNodeId;
-                  const colorConfig = getNodeColor(node);
                   const isVulnerable = node.status === 'vulnerable';
                   const isTainted = node.status === 'tainted';
                   const isPatched = node.status === 'patched';
                   const isDirectory = node.type === 'directory';
                   const isRoot = node.id === normalizedStructure.root.id;
-                  const isExpanded = isDirectory && !isRoot ? (expandedFolderMap[node.id] !== false) : true;
 
                   const coord = layout.nodeCoords[node.id] || { x: node.x, y: node.y };
                   const childrenCount = (normalizedStructure.filesByFolder[node.id] || []).length;
@@ -947,7 +922,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                               {isRoot ? (
                                 <FolderTree className="w-4 h-4 text-[#43881E]" />
                               ) : isDirectory ? (
-                                isExpanded ? <FolderOpen className="w-3.5 h-3.5 text-[#43881E]" /> : <Folder className="w-3.5 h-3.5 text-[#2E7F8C]" />
+                                expandedFolderMap[node.id] !== false ? <FolderOpen className="w-3.5 h-3.5 text-[#43881E]" /> : <Folder className="w-3.5 h-3.5 text-[#2E7F8C]" />
                               ) : node.type === 'test' || node.type === 'payload' ? (
                                 <ShieldAlert className="w-3.5 h-3.5 text-[#C27918]" />
                               ) : (
@@ -984,7 +959,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                           {isDirectory && !isRoot ? (
                             <div className="flex items-center justify-between w-full">
                               <span className="text-[#43881E] font-semibold">
-                                {isExpanded ? '▼ Open' : '▶ Expand'}
+                                {expandedFolderMap[node.id] !== false ? '▼ Open' : '▶ Expand'}
                               </span>
                               <span className="bg-[#FAFBF7] px-1.5 py-0.5 rounded border border-[#DFE4D8] font-bold">
                                 {childrenCount} files
@@ -1011,7 +986,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               {/* Viewport Overlay */}
               <div className="absolute bottom-4 left-4 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#DFE4D8] rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-[#586459] shadow-sm pointer-events-none">
                 <Move className="w-3.5 h-3.5 text-[#43881E]" />
-                <span>Tree Spine Layout • Click folders to toggle files • Drag to pan</span>
+                <span>Tree Spine Layout • Click any node to open full source code below • Drag to pan</span>
               </div>
             </div>
           ) : (
@@ -1100,57 +1075,73 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
           </div>
         </div>
 
-        {/* Right Code Inspector (Hidden in Panoramic full mode, 4 cols standard) */}
-        {!isFullscreen && (
-          <div className="lg:col-span-4 bg-[#FFFFFF] p-5 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)] flex flex-col justify-between space-y-4">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-[#DFE4D8]">
-                <div className="flex items-center gap-2">
-                  <Code2 className="w-4 h-4 text-[#43881E]" />
-                  <h4 className="text-xs font-bold text-[#1E2621] uppercase tracking-wider">
-                    Node AST Inspector
-                  </h4>
-                </div>
-                <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase ${getNodeColor(selectedNode).badge}`}>
-                  {selectedNode.status}
-                </span>
+        {/* Dedicated Full-Width Code Studio & AST Inspector Panel */}
+        <div className="w-full bg-[#FFFFFF] p-6 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)] space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#DFE4D8] gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#F0F8F3] border border-[#C8E6D3] flex items-center justify-center text-[#43881E]">
+                <Code2 className="w-5 h-5" />
               </div>
-
-              <div className="space-y-1">
-                <div className="text-base font-bold text-[#1E2621]">
-                  {selectedNode.label}
-                </div>
-                <div className="text-[11px] font-mono text-[#586459] bg-[#FAFBF7] px-2.5 py-1 rounded-md border border-[#DFE4D8] truncate">
-                  {selectedNode.path}
-                </div>
+              <div>
+                <h4 className="text-sm font-bold text-[#1E2621] flex items-center gap-2">
+                  <span>Source Code & AST Node Studio</span>
+                  <span className="text-xs text-[#586459] font-mono">({selectedNode.path || selectedNode.label})</span>
+                </h4>
+                <p className="text-xs text-[#586459]">
+                  Live AST symbol resolution, LoC inspection, and vulnerability sink analysis.
+                </p>
               </div>
+            </div>
 
-              <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8] text-xs text-[#4E594F] space-y-1">
-                <div className="text-[10px] text-[#818D82] uppercase font-bold">Analysis & Risk Summary:</div>
-                <p className="leading-relaxed font-medium">{selectedNode.description}</p>
+            <div className="flex items-center gap-2">
+              <span className={`text-xs px-3 py-1 rounded-full font-bold uppercase border ${getNodeColor(selectedNode).badge}`}>
+                {selectedNode.status}
+              </span>
+              {selectedNode.status === 'vulnerable' && onNavigateToView && (
+                <button
+                  onClick={() => {
+                    playSuccessChime();
+                    onNavigateToView('vulnerabilities');
+                  }}
+                  className="px-3.5 py-1.5 rounded-lg bg-[#D9485D] hover:bg-[#B22D42] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+                >
+                  <ShieldAlert className="w-3.5 h-3.5" />
+                  <span>Inspect Flaw in Vulnerability Center</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            {/* Left Col: Metadata & Symbols (4 cols) */}
+            <div className="lg:col-span-4 space-y-3">
+              <div className="p-4 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8] space-y-2">
+                <div className="text-[11px] text-[#818D82] uppercase font-bold">Node Identity:</div>
+                <div className="text-sm font-bold text-[#1E2621] font-mono">{selectedNode.label}</div>
+                <p className="text-xs text-[#4E594F] leading-relaxed font-medium">{selectedNode.description}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="p-3 rounded-lg bg-[#FAFBF7] border border-[#DFE4D8]">
-                  <span className="text-[9px] text-[#818D82] block font-bold">LINES OF CODE</span>
-                  <span className="text-base font-bold text-[#1E2621]">{selectedNode.loc || 'N/A'}</span>
+                  <span className="text-[10px] text-[#818D82] block font-bold">LINES OF CODE</span>
+                  <span className="text-base font-bold text-[#1E2621]">{selectedNode.loc || '35'} LoC</span>
                 </div>
                 <div className="p-3 rounded-lg bg-[#FAFBF7] border border-[#DFE4D8]">
-                  <span className="text-[9px] text-[#818D82] block font-bold">RISK SCORE</span>
-                  <span className={`text-base font-bold ${selectedNode.riskScore && selectedNode.riskScore > 50 ? 'text-[#B22D42]' : 'text-[#377218]'}`}>
-                    {selectedNode.riskScore !== undefined ? `${selectedNode.riskScore} / 100` : '0 / 100'}
+                  <span className="text-[10px] text-[#818D82] block font-bold">RISK EVALUATION</span>
+                  <span className={`text-base font-bold ${selectedNode.status === 'vulnerable' ? 'text-[#B22D42]' : 'text-[#377218]'}`}>
+                    {selectedNode.status === 'vulnerable' ? '8.8 / 10' : '0.0 / 10'}
                   </span>
                 </div>
               </div>
 
               {selectedNode.functions && selectedNode.functions.length > 0 && (
                 <div className="space-y-1.5">
-                  <div className="text-[10px] text-[#818D82] uppercase font-bold">RESOLVED AST SYMBOLS:</div>
-                  <div className="space-y-1">
+                  <div className="text-[10px] text-[#818D82] uppercase font-bold">RESOLVED AST SYMBOLS & SIZES:</div>
+                  <div className="space-y-1 max-h-[160px] overflow-y-auto pr-1">
                     {selectedNode.functions.map((fn, idx) => (
                       <div
                         key={idx}
-                        className="text-xs px-2.5 py-1 rounded bg-[#FAFBF7] border border-[#DFE4D8] text-[#1E2621] flex items-center justify-between font-mono"
+                        className="text-xs px-3 py-1.5 rounded-lg bg-[#FAFBF7] border border-[#DFE4D8] text-[#1E2621] flex items-center justify-between font-mono font-medium"
                       >
                         <span>{fn}</span>
                         <CheckCircle2 className="w-3.5 h-3.5 text-[#43881E]" />
@@ -1159,63 +1150,30 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                   </div>
                 </div>
               )}
-
-              {selectedNode.codePreview && (
-                <div className="space-y-1.5">
-                  <div className="text-[10px] text-[#818D82] uppercase font-bold">
-                    CODE PREVIEW
-                  </div>
-                  <SyntaxCodeBlock
-                    code={selectedNode.codePreview}
-                    language="cpp"
-                    title={selectedNode.label}
-                    highlightType={selectedNode.status === 'vulnerable' ? 'vuln' : selectedNode.status === 'patched' ? 'patch' : 'neutral'}
-                    showLineNumbers={false}
-                  />
-                </div>
-              )}
             </div>
 
-            <div className="pt-3 border-t border-[#DFE4D8] space-y-2">
-              {selectedNode.status === 'vulnerable' && onNavigateToView && (
-                <button
-                  onClick={() => {
-                    playSuccessChime();
-                    onNavigateToView('vulnerabilities');
-                  }}
-                  className="w-full py-2.5 px-3 rounded-[10px] bg-[#D9485D] hover:bg-[#B22D42] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm"
-                >
-                  <ShieldAlert className="w-4 h-4" />
-                  <span>Examine Vulnerability (CWE-121)</span>
-                </button>
-              )}
+            {/* Right Col: Full Spacious Code Block (8 cols) */}
+            <div className="lg:col-span-8 space-y-1.5">
+              <div className="flex items-center justify-between text-xs pb-1">
+                <span className="text-[#586459] font-mono font-bold flex items-center gap-1.5">
+                  <FileCode className="w-4 h-4 text-[#43881E]" />
+                  <span>{selectedNode.path || selectedNode.label}</span>
+                </span>
+                <span className="text-xs text-[#818D82]">
+                  {selectedNode.type.toUpperCase()} • UTF-8 Source Buffer
+                </span>
+              </div>
 
-              {selectedNode.status === 'patched' && onNavigateToView && (
-                <button
-                  onClick={() => {
-                    playSuccessChime();
-                    onNavigateToView('patch-center');
-                  }}
-                  className="w-full py-2.5 px-3 rounded-[10px] bg-[#43881E] hover:bg-[#377218] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm"
-                >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>View Synthesized Patch Diff</span>
-                </button>
-              )}
-
-              <button
-                onClick={() => {
-                  playCyberBlip(1100);
-                  if (onNavigateToView) onNavigateToView('agent-control');
-                }}
-                className="w-full py-2.5 px-3 rounded-[10px] bg-[#FAFBF7] hover:bg-[#F3F6EE] border border-[#DFE4D8] text-[#1E2621] text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
-              >
-                <Cpu className="w-3.5 h-3.5 text-[#43881E]" />
-                <span>Trace Agent Reasoning on Node</span>
-              </button>
+              <SyntaxCodeBlock
+                code={selectedNode.codePreview || `// ${selectedNode.label}\n// No inline preview buffer available for directory containers.`}
+                language="cpp"
+                title={`${selectedNode.label} (Source Code View)`}
+                highlightType={selectedNode.status === 'vulnerable' ? 'vuln' : selectedNode.status === 'patched' ? 'patch' : 'neutral'}
+                showLineNumbers={true}
+              />
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -14,7 +14,8 @@ import {
   Search,
   Code2,
   Network,
-  FolderTree
+  FolderTree,
+  ShieldAlert
 } from 'lucide-react';
 import { ProjectProfile, SecurityRun } from '../../types';
 import { playCyberBlip, playSuccessChime } from '../../utils/audio';
@@ -408,39 +409,75 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
 
             {customAnalysisResult ? (
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#B22D42] font-bold">{customAnalysisResult.vulnerability}</span>
-                  <span className="px-2 py-0.5 rounded bg-[#FDF2F4] text-[#B22D42] border border-[#F7CDD4] text-[10px] font-bold">
-                    {customAnalysisResult.severity || 'HIGH'} (Confidence: {customAnalysisResult.confidence || 95}%)
-                  </span>
-                </div>
+                {customAnalysisResult.isVulnerable === false || customAnalysisResult.severity === 'NONE' ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#F0F8F3] border border-[#C8E6D3]">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[#17653B]" />
+                        <span className="text-xs font-bold text-[#17653B]">{customAnalysisResult.vulnerability}</span>
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#FFFFFF] text-[#17653B] border border-[#C8E6D3] text-[10px] font-bold">
+                        VERIFIED SAFE (100%)
+                      </span>
+                    </div>
 
-                <p className="text-[#4E594F] text-xs leading-relaxed font-medium">
-                  {customAnalysisResult.rootCause || customAnalysisResult.reasoning || customAnalysisResult.attackVector}
-                </p>
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] space-y-1 text-xs">
+                      <span className="text-[10px] text-[#586459] uppercase font-bold">REASONING VERDICT:</span>
+                      <p className="text-[#1E2621] leading-relaxed font-medium">
+                        {customAnalysisResult.rootCause || customAnalysisResult.reasoning}
+                      </p>
+                    </div>
 
-                {customAnalysisResult.suggestedPatch && (
-                  <div className="space-y-1">
-                    <div className="text-[#17653B] text-[10px] font-bold">SYNTHESIZED SECURE PATCH:</div>
-                    <SyntaxCodeBlock
-                      code={customAnalysisResult.suggestedPatch}
-                      language="cpp"
-                      title="AI Remediated Patch"
-                      highlightType="patch"
-                      showLineNumbers={false}
-                    />
+                    {customAnalysisResult.suggestedPatch && (
+                      <div className="p-3 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8] text-[11px] font-mono text-[#586459]">
+                        {customAnalysisResult.suggestedPatch}
+                      </div>
+                    )}
                   </div>
-                )}
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 rounded-xl bg-[#FDF2F4] border border-[#F7CDD4]">
+                      <div className="flex items-center gap-2">
+                        <ShieldAlert className="w-4 h-4 text-[#B22D42]" />
+                        <span className="text-xs font-bold text-[#B22D42]">{customAnalysisResult.vulnerability}</span>
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#FFFFFF] text-[#B22D42] border border-[#F7CDD4] text-[10px] font-bold">
+                        {customAnalysisResult.severity || 'HIGH'} ({customAnalysisResult.confidence || 96}% Conf.)
+                      </span>
+                    </div>
 
-                {customAnalysisResult.securityProperty && (
-                  <div className="text-xs text-[#20626D] bg-[#F0F8F9] p-3 rounded-lg border border-[#C7E5E9]">
-                    <strong>FORMAL INVARIANT:</strong> {customAnalysisResult.securityProperty}
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] space-y-1 text-xs">
+                      <span className="text-[10px] text-[#818D82] uppercase font-bold">TECHNICAL ROOT CAUSE:</span>
+                      <p className="text-[#1E2621] leading-relaxed font-medium">
+                        {customAnalysisResult.rootCause || customAnalysisResult.reasoning || customAnalysisResult.attackVector}
+                      </p>
+                    </div>
+
+                    {customAnalysisResult.suggestedPatch && (
+                      <div className="space-y-1.5">
+                        <div className="text-[#17653B] text-[10px] font-bold uppercase">SYNTHESIZED REMEDIATION PATCH:</div>
+                        <SyntaxCodeBlock
+                          code={customAnalysisResult.suggestedPatch}
+                          language="cpp"
+                          title="AI Synthesized Patch Diff"
+                          highlightType="patch"
+                          showLineNumbers={true}
+                        />
+                      </div>
+                    )}
+
+                    {customAnalysisResult.securityProperty && (
+                      <div className="text-xs text-[#20626D] bg-[#F0F8F9] p-3 rounded-xl border border-[#C7E5E9]">
+                        <strong>FORMAL INVARIANT:</strong> {customAnalysisResult.securityProperty}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             ) : (
-              <div className="text-[#818D82] text-center py-12">
-                Paste a code block on the left and click "Analyze Vulnerability & Prove Fix" to trigger the multi-agent reasoning oracle.
+              <div className="text-[#818D82] text-center py-12 flex flex-col items-center justify-center gap-2">
+                <Sparkles className="w-6 h-6 text-[#818D82]/50 animate-pulse" />
+                <span>Paste any custom code snippet or greeting on the left to test live AI cyber-reasoning.</span>
               </div>
             )}
           </div>

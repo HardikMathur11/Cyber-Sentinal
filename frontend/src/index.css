@@ -224,3 +224,40 @@ html, body {
 .font-mono-tech {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
+
+/* Cyber Animations & Radar Scans */
+@keyframes cyberPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(67, 136, 30, 0.2), 0 0 20px rgba(67, 136, 30, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(67, 136, 30, 0.4), 0 0 35px rgba(67, 136, 30, 0.15);
+  }
+}
+
+@keyframes radarSweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes telemetryGlitch {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.animate-cyber-glow {
+  animation: cyberPulseGlow 3s ease-in-out infinite;
+}
+
+.animate-radar-sweep {
+  animation: radarSweep 6s linear infinite;
+}
+
+.animate-telemetry {
+  animation: telemetryGlitch 2s ease-in-out infinite;
+}
+
