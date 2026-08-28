@@ -120,7 +120,41 @@ export const DIRECTORY_GRAPH_DEMO: ProjectDirectoryGraphData = {
       y: 280,
       parentId: 'dir-src',
       imports: ['network.h', 'parser.h'],
-      codePreview: `int main(int argc, char** argv) {\n    std::cout << "[*] Initializing Packet Parser Daemon v1.4..." << std::endl;\n    NetworkSocket sock(8080);\n    sock.listen_and_dispatch();\n    return 0;\n}`
+      codePreview: `// main.cpp - Packet Parser System Bootstrap
+#include <iostream>
+#include <csignal>
+#include "network.h"
+#include "parser.h"
+
+static volatile bool g_running = true;
+
+void signal_handler(int signum) {
+    std::cout << "\\n[!] Interrupted by signal " << signum << ", shutting down gracefully..." << std::endl;
+    g_running = false;
+}
+
+int init_daemon(int port) {
+    std::cout << "[*] Starting Sentinel-Chain Cyber-Defense Node on port " << port << std::endl;
+    std::signal(SIGINT, signal_handler);
+    std::signal(SIGTERM, signal_handler);
+    return 0;
+}
+
+int main(int argc, char** argv) {
+    int port = (argc > 1) ? std::atoi(argv[1]) : 8080;
+    if (init_daemon(port) != 0) {
+        std::cerr << "[-] Daemon initialization failed" << std::endl;
+        return 1;
+    }
+    
+    std::cout << "[+] Listening for untrusted ingress packets..." << std::endl;
+    NetworkSocket sock(port);
+    while (g_running) {
+        sock.listen_and_dispatch();
+    }
+    std::cout << "[*] System stopped cleanly." << std::endl;
+    return 0;
+}`
     },
     {
       id: 'file-network',
@@ -137,7 +171,36 @@ export const DIRECTORY_GRAPH_DEMO: ProjectDirectoryGraphData = {
       y: 280,
       parentId: 'dir-src',
       imports: ['network.h', 'types.h', 'parser.h'],
-      codePreview: `void NetworkSocket::handle_client_stream(int client_fd) {\n    char raw_buf[4096];\n    ssize_t bytes_read = read(client_fd, raw_buf, sizeof(raw_buf));\n    if (bytes_read > 0) {\n        // Tainted ingress: Passing raw payload to parser without bounds validation\n        PacketParser::parse_packet(raw_buf, bytes_read);\n    }\n}`
+      codePreview: `// network.cpp - Raw TCP Socket Demultiplexer
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <iostream>
+#include "network.h"
+#include "parser.h"
+
+NetworkSocket::NetworkSocket(int port) : server_port(port), server_fd(-1) {}
+
+void NetworkSocket::handle_client_stream(int client_fd) {
+    char raw_buf[4096];
+    ssize_t bytes_read = read(client_fd, raw_buf, sizeof(raw_buf));
+    
+    if (bytes_read > 0) {
+        std::cout << "[*] Received raw packet frame: " << bytes_read << " bytes" << std::endl;
+        // TAINT VECTOR: Untrusted ingress payload passed straight into deep parser
+        PacketParser parser;
+        parser.parse_packet(raw_buf, bytes_read);
+    } else if (bytes_read < 0) {
+        std::cerr << "[-] Error reading from client socket " << client_fd << std::endl;
+    }
+    close(client_fd);
+}
+
+void NetworkSocket::listen_and_dispatch() {
+    // Poll loop dispatching connections to parser workers
+    int dummy_client = 3;
+    handle_client_stream(dummy_client);
+}`
     },
     {
       id: 'file-parser',
@@ -154,7 +217,41 @@ export const DIRECTORY_GRAPH_DEMO: ProjectDirectoryGraphData = {
       y: 280,
       parentId: 'dir-src',
       imports: ['parser.h', 'buffer_utils.h', 'types.h'],
-      codePreview: `int PacketParser::extract_header(const char* packet_data, size_t len) {\n    char stack_dest[64]; // Fixed stack buffer\n    // VULNERABILITY: Unbounded copy directly onto stack frame\n    strcpy(stack_dest, packet_data + 12);\n    return 0;\n}`
+      codePreview: `// parser.cpp - Vulnerable Packet De-serialization Engine
+#include <cstring>
+#include <iostream>
+#include "parser.h"
+#include "buffer_utils.h"
+
+int PacketParser::extract_header(const char* packet_data, size_t len) {
+    // Fixed stack buffer allocation
+    char stack_dest[64];
+    
+    // ============================================================
+    // VULNERABILITY DETECTED [CWE-121]: Stack-based Buffer Overflow
+    // Taint sink: packet_data offset 12 is copied without length validation.
+    // If packet_data payload exceeds 63 bytes, it overwrites the stack frame return address.
+    // ============================================================
+    strcpy(stack_dest, packet_data + 12);
+    
+    std::cout << "[+] Parsed header tag: " << stack_dest << std::endl;
+    return 0;
+}
+
+int PacketParser::parse_packet(const char* data, size_t len) {
+    if (len < 16) {
+        std::cerr << "[-] Malformed packet: insufficient length" << std::endl;
+        return -1;
+    }
+    
+    // Check magic signature
+    if (std::memcmp(data, "PKT\\x01", 4) != 0) {
+        std::cerr << "[-] Invalid packet magic header" << std::endl;
+        return -2;
+    }
+    
+    return extract_header(data, len);
+}`
     },
     {
       id: 'file-buffer-utils',
@@ -171,7 +268,26 @@ export const DIRECTORY_GRAPH_DEMO: ProjectDirectoryGraphData = {
       y: 400,
       parentId: 'dir-src',
       imports: ['buffer_utils.h', 'types.h'],
-      codePreview: `bool safe_bounded_copy(char* dest, size_t dest_size, const char* src, size_t src_len) {\n    if (src_len >= dest_size) {\n        return false; // Bounds safety invariant enforced\n    }\n    memcpy(dest, src, src_len);\n    dest[src_len] = '\\0';\n    return true;\n}`
+      codePreview: `// buffer_utils.cpp - Certified Bounds-Checked Memory Utilities
+#include <cstring>
+#include <iostream>
+#include "buffer_utils.h"
+
+bool safe_bounded_copy(char* dest, size_t dest_size, const char* src, size_t src_len) {
+    if (dest == nullptr || src == nullptr || dest_size == 0) {
+        return false;
+    }
+    
+    // Formal Invariant Check: guarantee src fits inside dest
+    if (src_len >= dest_size) {
+        std::cerr << "[!] Bounds violation prevented: " << src_len << " >= " << dest_size << std::endl;
+        return false;
+    }
+    
+    std::memcpy(dest, src, src_len);
+    dest[src_len] = '\\0';
+    return true;
+}`
     },
     {
       id: 'file-protocol',
@@ -188,7 +304,26 @@ export const DIRECTORY_GRAPH_DEMO: ProjectDirectoryGraphData = {
       y: 400,
       parentId: 'dir-src',
       imports: ['types.h'],
-      codePreview: `uint32_t compute_crc32(const uint8_t* data, size_t length) {\n    uint32_t crc = 0xFFFFFFFF;\n    for (size_t i = 0; i < length; ++i) {\n        crc = (crc >> 8) ^ crc_table[(crc ^ data[i]) & 0xFF];\n    }\n    return ~crc;\n}`
+      codePreview: `// protocol.cpp - Network Wire Format CRC & Checksum Routines
+#include <cstdint>
+#include <cstddef>
+#include "types.h"
+
+uint32_t compute_crc32(const uint8_t* data, size_t length) {
+    static const uint32_t crc_table[16] = {
+        0x00000000, 0x1DB71064, 0x3B6E20C8, 0x26D930AC,
+        0x76DC4190, 0x6B6B51F4, 0x4DB26158, 0x5005713C,
+        0xEDB88320, 0xF00F9344, 0xD6D6A3E8, 0xCB61B38C,
+        0x9B64C2B0, 0x86D3D2D4, 0xA00AE278, 0xBDBDF21C
+    };
+    
+    uint32_t crc = 0xFFFFFFFF;
+    for (size_t i = 0; i < length; ++i) {
+        crc = (crc >> 4) ^ crc_table[(crc ^ (data[i] & 0x0F)) & 0x0F];
+        crc = (crc >> 4) ^ crc_table[(crc ^ (data[i] >> 4)) & 0x0F];
+    }
+    return ~crc;
+}`
     },
 
     // Headers in include/

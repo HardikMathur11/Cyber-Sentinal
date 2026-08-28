@@ -3,7 +3,6 @@ import http from 'http';
 import path from 'path';
 import fs from 'fs';
 import { WebSocketServer } from 'ws';
-import { createServer as createViteServer } from 'vite';
 import dotenv from 'dotenv';
 import AdmZip from 'adm-zip';
 import { orchestratorManager } from './src/orchestrator/workflow';
