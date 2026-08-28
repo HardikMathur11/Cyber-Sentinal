@@ -209,8 +209,8 @@ export default function App() {
             }));
           }
           playSuccessChime();
-          // Navigate user to Vulnerability Center to view findings immediately
-          setCurrentView('vulnerabilities');
+          // Stay on Project Intelligence page so user sees active uploaded project & full code studio
+          setCurrentView('project-intelligence');
           return;
         }
       } catch (e) {
@@ -259,8 +259,8 @@ export default function App() {
             }));
           }
           playSuccessChime();
-          // Navigate user to Vulnerability Center to view findings immediately
-          setCurrentView('vulnerabilities');
+          // Stay on Project Intelligence page so user sees active uploaded project & full code studio
+          setCurrentView('project-intelligence');
           return;
         }
       } catch (e) {

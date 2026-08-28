@@ -112,11 +112,37 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Main Upload Box (7 cols) */}
         <div className="lg:col-span-7 bg-[#FFFFFF] p-6 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)]">
-          <div className="flex items-center gap-2 pb-3 mb-4 border-b border-[#DFE4D8]">
-            <Upload className="w-4 h-4 text-[#43881E]" />
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#1E2621]">
-              Upload Source Project
-            </h3>
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#DFE4D8]">
+            <div className="flex items-center gap-2">
+              <Upload className="w-4 h-4 text-[#43881E]" />
+              <h3 className="text-sm font-bold uppercase tracking-wider text-[#1E2621]">
+                Source Code Intake & Architecture
+              </h3>
+            </div>
+            <span className="text-xs text-[#1E824C] font-bold bg-[#F0F8F3] px-2.5 py-0.5 rounded-full border border-[#C8E6D3]">
+              LIVE INTAKE
+            </span>
+          </div>
+
+          {/* Currently Active Uploaded Project Card */}
+          <div className="p-4 rounded-xl bg-[#F0F8F3] border border-[#C8E6D3] flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 shadow-2xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#FFFFFF] border border-[#C8E6D3] flex items-center justify-center text-[#1E824C] shadow-xs shrink-0">
+                <FolderGit2 className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] text-[#586459] font-bold">CURRENT ACTIVE PROJECT:</span>
+                  <span className="px-2 py-0.2 rounded-full bg-[#FFFFFF] text-[#1E824C] border border-[#C8E6D3] text-[9px] font-bold">
+                    LOADED
+                  </span>
+                </div>
+                <div className="text-base font-bold text-[#1E2621] font-mono">{profile.name}</div>
+                <div className="text-xs text-[#4E594F] font-mono mt-0.5">
+                  {profile.language} • {profile.fileCount} Source Files • {profile.linesOfCode} LoC • {profile.buildSystem}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div
@@ -134,21 +160,21 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
                 onCustomUpload({ name: file.name, language: 'C++', fileObj: file });
               }
             }}
-            className={`border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer ${
+            className={`border-2 border-dashed rounded-xl p-5 text-center transition-all cursor-pointer ${
               isDragging
                 ? 'border-[#43881E] bg-[#F1F8EC] scale-[1.01]'
                 : 'border-[#CDD4C6] bg-[#FAFBF7] hover:border-[#43881E] hover:bg-[#F1F8EC]/50'
             }`}
           >
-            <div className="w-12 h-12 rounded-xl bg-[#F1F8EC] border border-[#D1E7C4] flex items-center justify-center mx-auto mb-3 text-[#43881E] shadow-sm">
-              <FolderGit2 className="w-6 h-6" />
+            <div className="w-10 h-10 rounded-xl bg-[#F1F8EC] border border-[#D1E7C4] flex items-center justify-center mx-auto mb-2.5 text-[#43881E] shadow-sm">
+              <FolderGit2 className="w-5 h-5" />
             </div>
 
             <h4 className="text-sm font-bold text-[#1E2621] mb-1">
-              Upload ZIP or TAR source-code project
+              Upload Another Project or Folder
             </h4>
-            <p className="text-xs text-[#586459] max-w-md mx-auto mb-4 font-medium">
-              Upload a ZIP or TAR source-code project for autonomous security analysis, AST decompilation, attack surface mapping, and verified patch generation.
+            <p className="text-xs text-[#586459] max-w-md mx-auto mb-3 font-medium">
+              Upload another ZIP or folder to decompile AST, map attack vectors, and inspect full source code.
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3">
