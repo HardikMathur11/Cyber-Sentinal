@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+@theme {
+  --color-defence-bg: #F3F6EE;
+  --color-defence-surface: #FFFFFF;
+  --color-defence-surface-sub: #FAFBF7;
+  --color-defence-green: #43881E;
+  --color-defence-green-dark: #2D6313;
+  --color-defence-charcoal: #1E2621;
+  --color-defence-muted: #647065;
+}
+
+:root {
+  /* 1. MASTER COLOR PALETTE - LOW SATURATION, HIGH-LEGIBILITY DEFENCE GRADE */
+  --background: #F3F6EE;
+  --surface: #FFFFFF;
+  --surface-secondary: #FAFBF7;
+
+  --primary: #43881E;
+  --primary-dark: #2D6313;
+  --primary-hover: #377218;
+  --primary-active: #2C5E13;
+  --primary-disabled: #B4C4AD;
+
+  --text-primary: #1E2621;
+  --text-secondary: #586459;
+  --text-muted: #818D82;
+  --text-body: #4E594F;
+  --text-mono: #2E3A30;
+
+  /* 8. SUCCESS / VERIFIED */
+  --success: #1E824C;
+  --success-bg: #F0F8F3;
+  --success-border: #C8E6D3;
+  --success-text: #17653B;
+
+  /* 9. CRITICAL / VULNERABILITY */
+  --critical: #D9485D;
+  --critical-bg: #FDF2F4;
+  --critical-border: #F7CDD4;
+  --critical-text: #B22D42;
+
+  /* 10. WARNING / HUMAN APPROVAL */
+  --warning: #C27918;
+  --warning-bg: #FEF9F0;
+  --warning-border: #F8E6C8;
+  --warning-text: #965B0C;
+
+  /* 11. INFORMATION / ANALYSIS */
+  --info: #2E7F8C;
+  --info-bg: #F0F8F9;
+  --info-border: #C7E5E9;
+  --info-text: #20626D;
+
+  /* 12. ACTIVE / RUNNING */
+  --running: #43881E;
+  --running-bg: #F1F8EC;
+  --running-border: #D1E7C4;
+  --running-text: #377218;
+
+  /* 16. MIDNIGHT CODE EDITOR */
+  --code-bg: #0B0F19;
+  --code-text: #E6EDF3;
+  --code-border: #1E2638;
+
+  /* 31. BORDERS & 32. SHADOWS */
+  --border: #DFE4D8;
+  --border-strong: #CDD4C6;
+  --border-green: #C9DEC0;
+
+  --shadow-small: 0 1px 3px rgba(30, 40, 25, 0.04);
+  --shadow-card: 0 2px 10px rgba(30, 40, 25, 0.05);
+  --shadow-elevated: 0 6px 20px rgba(30, 40, 25, 0.07);
+}
+
+.dark {
+  --background: #0B110D;
+  --surface: #121A14;
+  --surface-secondary: #17221A;
+  --text-primary: #EEF7F0;
+  --text-secondary: #9DB4A0;
+  --text-muted: #6E8471;
+  --border: #233427;
+  --border-strong: #2E4534;
+  --code-bg: #080C14;
+}
+
+html, body {
+  background-color: #F3F6EE !important;
+  color: #1E2621;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dark html, .dark body {
+  background-color: #0B110D !important;
+  color: #EEF7F0;
+}
+
+/* Soft, Low-Fatigue Sage-Ivory Canvas Grid */
+.cyber-grid-bg {
+  background-color: #F3F6EE !important;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(67, 136, 30, 0.06) 0%, rgba(243, 246, 238, 0) 70%),
+    linear-gradient(rgba(67, 136, 30, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(67, 136, 30, 0.04) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 36px 36px, 36px 36px !important;
+}
+
+.dark .cyber-grid-bg {
+  background-color: #0B110D !important;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(67, 136, 30, 0.10) 0%, rgba(11, 17, 13, 0) 70%),
+    linear-gradient(rgba(67, 136, 30, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(67, 136, 30, 0.04) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 36px 36px, 36px 36px !important;
+}
+
+/* Clean Defence Card Style */
+.cyber-card {
+  background-color: #FFFFFF;
+  border: 1px solid #DFE4D8;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(30, 40, 25, 0.05);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cyber-card:hover {
+  border-color: #CDD4C6;
+}
+
+.dark .cyber-card {
+  background-color: #121A14;
+  border: 1px solid #233427;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.cyber-card-active {
+  background-color: #FFFFFF;
+  border: 1.5px solid #43881E;
+  box-shadow: 0 0 0 1px #43881E, 0 3px 12px rgba(67, 136, 30, 0.08);
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: #43881E !important;
+  color: #FFFFFF !important;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 6px rgba(45, 90, 20, 0.12) !important;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: #377218 !important;
+  box-shadow: 0 4px 10px rgba(45, 90, 20, 0.18) !important;
+}
+.btn-primary:active {
+  background-color: #2C5E13 !important;
+}
+.btn-primary:disabled {
+  background-color: #B4C4AD !important;
+  cursor: not-allowed;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DFE4D8 !important;
+  color: #38453A !important;
+  border-radius: 10px !important;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+.btn-secondary:hover {
+  background-color: #FAFBF7 !important;
+  border-color: #C2CCBA !important;
+}
+
+/* Tables */
+.table-defence {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DFE4D8 !important;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.table-defence th {
+  background-color: #FAFBF7 !important;
+  color: #465348 !important;
+  font-weight: 600;
+  border-bottom: 1px solid #DFE4D8;
+}
+.table-defence tr:hover td {
+  background-color: #F6F9F2 !important;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FAFBF7;
+}
+.dark ::-webkit-scrollbar-track {
+  background: #0B110D;
+}
+::-webkit-scrollbar-thumb {
+  background: #CDD4C6;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #233427;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #AAB4A2;
+}
+
+/* Monospace technical font for hashes, memory & code */
+.font-mono-tech {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
