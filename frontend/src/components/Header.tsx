@@ -35,6 +35,7 @@ interface HeaderProps {
   onOpenGuide?: () => void;
   onToggleMobileSidebar?: () => void;
   isMobileSidebarOpen?: boolean;
+  onNavigate?: (view: any) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -47,16 +48,19 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleTheme,
   onOpenGuide,
   onToggleMobileSidebar,
-  isMobileSidebarOpen
+  isMobileSidebarOpen,
+  onNavigate
 }) => {
   const [soundOn, setSoundOn] = useState<boolean>(isSoundEnabled());
   const [showNotifications, setShowNotifications] = useState(false);
   const [showModeDropdown, setShowModeDropdown] = useState(false);
 
   const notifications = [
-    { id: 1, type: 'ALERT', text: 'VULN-001 (Stack Buffer Overflow) confirmed via PoV payload', time: '2m ago' },
-    { id: 2, type: 'SUCCESS', text: 'Candidate Patch #2 passed 1,250 adversarial mutation rounds', time: '1m ago' },
-    { id: 3, type: 'INFO', text: 'Proof Certificate SC-2026-001847 generated with SHA-256 seal', time: 'Just now' },
+    { id: 1, type: 'ALERT', text: 'VULN-001 (Stack Buffer Overflow) confirmed via PoV payload', time: '2m ago', target: 'vulnerabilities' },
+    { id: 2, type: 'SUCCESS', text: 'Candidate Patch #2 passed 1,250 adversarial mutation rounds', time: '1m ago', target: 'patch-center' },
+    { id: 3, type: 'INFO', text: 'Proof Certificate SC-2026-001847 generated with SHA-256 seal', time: 'Just now', target: 'certificates' },
+    { id: 4, type: 'ALERT', text: 'VULN-003 (Use-After-Free in Session Table) discovered at session_manager.cpp:204', time: '4m ago', target: 'vulnerabilities' },
+    { id: 5, type: 'SUCCESS', text: 'GoogleTest Suite: 78 / 78 test cases verified clean (0 regressions)', time: '5m ago', target: 'analytics' },
   ];
 
   const handleSoundToggle = () => {
@@ -243,18 +247,27 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar">
                 {notifications.map((n) => (
                   <div
                     key={n.id}
-                    className="p-2.5 rounded-xl bg-[#F8FAFD] border border-[#E2E8F0] flex items-start gap-2.5"
+                    onClick={() => {
+                      playCyberBlip(950);
+                      setShowNotifications(false);
+                      if (onNavigate) onNavigate(n.target);
+                    }}
+                    className="p-2.5 rounded-xl bg-[#F8FAFD] hover:bg-[#EFF6FF] border border-[#E2E8F0] hover:border-[#93C5FD] flex items-start gap-2.5 cursor-pointer transition-all active:scale-[0.98] group"
+                    title="Click to view details"
                   >
                     {n.type === 'ALERT' && <ShieldAlert className="w-4 h-4 text-[#E11D48] shrink-0 mt-0.5" />}
                     {n.type === 'SUCCESS' && <CheckCircle2 className="w-4 h-4 text-[#2563EB] shrink-0 mt-0.5" />}
                     {n.type === 'INFO' && <Sparkles className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />}
                     <div className="flex-1 min-w-0">
-                      <p className="text-[#1E2621] text-xs font-medium leading-snug break-words">{n.text}</p>
-                      <span className="text-[10px] text-[#818D82] mt-0.5 block">{n.time}</span>
+                      <p className="text-[#0F172A] text-xs font-medium leading-snug break-words group-hover:text-[#2563EB] transition-colors">{n.text}</p>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-[10px] text-[#64748B]">{n.time}</span>
+                        <span className="text-[10px] font-bold text-[#2563EB] opacity-0 group-hover:opacity-100 transition-opacity">View →</span>
+                      </div>
                     </div>
                   </div>
                 ))}

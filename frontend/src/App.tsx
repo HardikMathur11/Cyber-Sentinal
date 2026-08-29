@@ -16,6 +16,7 @@ import { RegressionPerformanceView } from './components/views/RegressionPerforma
 import { TimeMachineView } from './components/views/TimeMachineView';
 import { AgentControlCenterView } from './components/views/AgentControlCenterView';
 import { ProofCertificatesView } from './components/views/ProofCertificatesView';
+import { AnalyticsView } from './components/views/AnalyticsView';
 import { playCyberBlip, playSuccessChime } from './utils/audio';
 
 export default function App() {
@@ -34,7 +35,7 @@ export default function App() {
   const API_BASE =
     import.meta.env.VITE_BACKEND_URL ||
     (typeof window !== 'undefined' &&
-    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
       ? ''
       : 'https://army-system-09oo.onrender.com');
 
@@ -44,7 +45,7 @@ export default function App() {
     const backendEnv =
       import.meta.env.VITE_BACKEND_URL ||
       (typeof window !== 'undefined' &&
-      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
         ? ''
         : 'https://army-system-09oo.onrender.com');
 
@@ -231,7 +232,7 @@ export default function App() {
       try {
         const reader = new FileReader();
         const file = uploadPayload.fileObj;
-        
+
         const base64Data = await new Promise<string>((resolve, reject) => {
           reader.onload = () => {
             const result = reader.result as string;
@@ -318,6 +319,7 @@ export default function App() {
         onOpenGuide={() => setIsGuideOpen(true)}
         onToggleMobileSidebar={() => setMobileSidebarOpen(!mobileSidebarOpen)}
         isMobileSidebarOpen={mobileSidebarOpen}
+        onNavigate={setCurrentView}
       />
 
       {/* Main App Body Below Header */}
@@ -374,13 +376,17 @@ export default function App() {
             {currentView === 'vulnerabilities' && (
               <VulnerabilityCenterView
                 findings={securityRun.findings}
+                pov={securityRun.pov}
+                initialTab="findings"
                 onNavigate={setCurrentView}
               />
             )}
 
             {currentView === 'pov' && (
-              <ProofOfVulnerabilityView
+              <VulnerabilityCenterView
+                findings={securityRun.findings}
                 pov={securityRun.pov}
+                initialTab="pov"
                 onNavigate={setCurrentView}
               />
             )}
@@ -391,13 +397,8 @@ export default function App() {
                 activePatchIndex={activePatchIndex}
                 onSelectPatchAttempt={setActivePatchIndex}
                 safetyMode={safetyMode}
-                onNavigate={setCurrentView}
-              />
-            )}
-
-            {currentView === 'verification' && (
-              <IndependentVerificationView
-                verification={securityRun.verificationResult}
+                initialTab="matrix"
+                breakData={securityRun.breakMyPatch}
                 onNavigate={setCurrentView}
               />
             )}
@@ -409,16 +410,17 @@ export default function App() {
               />
             )}
 
-            {currentView === 'regression-performance' && (
-              <RegressionPerformanceView
-                regression={securityRun.regression}
-                performance={securityRun.performance}
+            {currentView === 'verification' && (
+              <IndependentVerificationView
+                verification={securityRun.verificationResult}
                 onNavigate={setCurrentView}
               />
             )}
 
-            {currentView === 'time-machine' && (
-              <TimeMachineView
+            {(currentView === 'regression-performance' || currentView === 'time-machine' || currentView === 'analytics') && (
+              <AnalyticsView
+                regression={securityRun.regression}
+                performance={securityRun.performance}
                 timeline={securityRun.timeline}
                 onNavigate={setCurrentView}
               />

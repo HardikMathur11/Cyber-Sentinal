@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Upload,
   FolderGit2,
@@ -15,12 +15,14 @@ import {
   Code2,
   Network,
   FolderTree,
-  ShieldAlert
+  ShieldAlert,
+  Activity
 } from 'lucide-react';
 import { ProjectProfile, SecurityRun } from '../../types';
 import { playCyberBlip, playSuccessChime } from '../../utils/audio';
 import { DirectoryGraph } from '../DirectoryGraph';
 import { SyntaxCodeBlock } from '../SyntaxCodeBlock';
+import { LogDetailModal, LogItemDetail } from '../LogDetailModal';
 
 interface ProjectIntelligenceViewProps {
   profile: ProjectProfile;
@@ -52,7 +54,7 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
       id: 'packet-parser-demo',
       name: 'packet-parser-demo',
       language: 'C++',
-      build: 'CMake',
+      build: 'CMake 3.28',
       vulnType: 'Stack Buffer Overflow (CWE-121)',
       desc: 'High-throughput packet parsing daemon with unchecked string copies.'
     },
@@ -69,8 +71,64 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
       name: 'telemetry-streamer',
       language: 'C',
       build: 'Autotools',
-      vulnType: 'Heap Buffer Over-read & Truncation',
+      vulnType: 'Heap Buffer Over-read & Truncation (CWE-190)',
       desc: 'Telemetry ingestion stream with signed integer truncation in length decoder.'
+    },
+    {
+      id: 'kernel-driver-io',
+      name: 'kernel-driver-io',
+      language: 'C',
+      build: 'KBuild / Make',
+      vulnType: 'Use-After-Free in Session Table (CWE-416)',
+      desc: 'High-performance network IO ring buffer driver with race teardown.'
+    },
+    {
+      id: 'api-gateway-mesh',
+      name: 'api-gateway-mesh',
+      language: 'Go / C',
+      build: 'Bazel',
+      vulnType: 'Command Injection via Ping Tool (CWE-78)',
+      desc: 'Ingress proxy routing microservice with unescaped diagnostic utility.'
+    },
+    {
+      id: 'tls-handshake-engine',
+      name: 'tls-handshake-engine',
+      language: 'Rust / C',
+      build: 'Cargo',
+      vulnType: 'NULL Pointer Dereference on SNI (CWE-476)',
+      desc: 'Hardware-accelerated TLS 1.3 protocol termination daemon.'
+    },
+    {
+      id: 'dns-resolver-core',
+      name: 'dns-resolver-core',
+      language: 'C++',
+      build: 'Meson',
+      vulnType: 'Format String Injection in Syslog (CWE-134)',
+      desc: 'Recursive DNS caching resolver with tainted log output.'
+    },
+    {
+      id: 'ipc-message-broker',
+      name: 'ipc-message-broker',
+      language: 'C',
+      build: 'CMake',
+      vulnType: 'Double Free on Connection Timeout (CWE-415)',
+      desc: 'Zero-copy inter-process message bus with asynchronous timer multiplexing.'
+    },
+    {
+      id: 'wasm-sandbox-vm',
+      name: 'wasm-sandbox-vm',
+      language: 'C++',
+      build: 'Ninja / CMake',
+      vulnType: 'Heap Out-of-Bounds in LZW Codec (CWE-787)',
+      desc: 'WebAssembly runtime JIT compilation and linear memory boundary engine.'
+    },
+    {
+      id: 'oauth2-token-vault',
+      name: 'oauth2-token-vault',
+      language: 'C++',
+      build: 'CMake',
+      vulnType: 'Race Condition in Token Bucket Limiter (CWE-362)',
+      desc: 'High-concurrency token bucket rate limiter with atomic race condition.'
     }
   ];
 
@@ -110,8 +168,59 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
     }
   };
 
+  const SCAN_LOGS = [
+    { type: 'INFO', tag: 'RECON', msg: `Mapping file structure of "${profile.name}"... ` },
+    { type: 'AGENT', tag: 'AST', msg: `Parsing ${profile.fileCount} source files... ${profile.functionCount} functions indexed` },
+    { type: 'AGENT', tag: 'TAINT', msg: `Tracing data flows... dangerous sinks: strcpy, gets, sprintf` },
+    { type: 'DANGER', tag: 'VULN', msg: `⚠ Potential buffer overflow: parse_header_tag() at parser.cpp:142` },
+    { type: 'AGENT', tag: 'CALL-GRAPH', msg: `Building call graph: ${profile.functionCount} nodes, 47 edges resolved` },
+    { type: 'INFO', tag: 'FUZZER', msg: `Initializing AFL++ seed corpus from entry points...` },
+    { type: 'SUCCESS', tag: 'INDEX', msg: `✓ Project fully indexed — attack surface mapped, ready for analysis` },
+    { type: 'INFO', tag: 'SYSTEM', msg: `Sandbox isolation: Docker ephemeral, 512MB RAM, CPU: 2 cores` },
+    { type: 'AGENT', tag: 'STATIC', msg: `Running Semgrep ruleset: 47 c.lang.security rules active` },
+    { type: 'INFO', tag: 'DEPS', msg: `Resolving ${profile.dependencyCount} linked dependencies...` },
+    { type: 'SUCCESS', tag: 'BUILD', msg: `✓ Build system detected: ${profile.buildSystem} — compile flags extracted` },
+  ];
+
+  const [scanLogs, setScanLogs] = useState<{ type: string; tag: string; msg: string; time: string; id: number }[]>([]);
+  const [scanActive, setScanActive] = useState(false);
+  const [selectedLogForModal, setSelectedLogForModal] = useState<LogItemDetail | null>(null);
+  const scanUid = useRef(0);
+  const scanRef = useRef<HTMLDivElement>(null);
+
+  const startScan = (projectName: string) => {
+    setScanLogs([]);
+    setScanActive(true);
+    let idx = 0;
+    const interval = setInterval(() => {
+      if (idx >= SCAN_LOGS.length) { clearInterval(interval); setScanActive(false); return; }
+      const entry = SCAN_LOGS[idx++];
+      const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+      setScanLogs(prev => [...prev, { ...entry, time, id: scanUid.current++ }]);
+    }, 380);
+  };
+
+  // Auto-start scan when profile changes
+  useEffect(() => {
+    if (profile.name) {
+      startScan(profile.name);
+    }
+  }, [profile.name]);
+
+  // Auto-scroll scan terminal
+  useEffect(() => {
+    if (scanRef.current) scanRef.current.scrollTop = scanRef.current.scrollHeight;
+  }, [scanLogs]);
+
   return (
     <div id="project-intel-view" className="space-y-6 font-sans">
+      {/* Log Detail Inspector Modal */}
+      <LogDetailModal
+        log={selectedLogForModal}
+        onClose={() => setSelectedLogForModal(null)}
+        onNavigate={onNavigate}
+      />
+
       {/* Upload Zone & Project Selector */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Main Upload Box (7 cols) */}
@@ -344,6 +453,97 @@ export const ProjectIntelligenceView: React.FC<ProjectIntelligenceViewProps> = (
         </div>
 
       {/* Project Directory & Architecture Graph */}
+      {/* Live Scanning Terminal */}
+      <div className="bg-[#0B0F19] border border-[#1E293B] rounded-2xl overflow-hidden shadow-xl">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-[#1E293B] bg-[#080C14]">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+              <span className="w-3 h-3 rounded-full bg-[#EF4444]" />
+              <span className="w-3 h-3 rounded-full bg-[#F59E0B]" />
+              <span className="w-3 h-3 rounded-full bg-[#22C55E]" />
+            </div>
+            <Terminal className="w-4 h-4 text-[#3B82F6]" />
+            <span className="text-xs font-bold text-[#94A3B8] font-mono uppercase tracking-wider">
+              Project Analysis — Live Scan Terminal
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] font-mono">
+            {scanActive ? (
+              <span className="flex items-center gap-1.5 text-[#34D399]">
+                <Activity className="w-3 h-3 animate-pulse" />
+                SCANNING...
+              </span>
+            ) : scanLogs.length > 0 ? (
+              <span className="flex items-center gap-1.5 text-[#4ADE80]">
+                <span className="w-2 h-2 rounded-full bg-[#22C55E]" />
+                SCAN COMPLETE
+              </span>
+            ) : (
+              <span className="text-[#475569]">IDLE</span>
+            )}
+            <button
+              onClick={() => { playCyberBlip(900); startScan(profile.name); }}
+              className="ml-2 px-2.5 py-1 rounded bg-[#1E293B] hover:bg-[#2D3748] text-[#60A5FA] text-[10px] font-bold transition-all border border-[#334155]"
+            >
+              RE-SCAN
+            </button>
+          </div>
+        </div>
+        <div
+          ref={scanRef}
+          className="p-4 min-h-[140px] max-h-[220px] overflow-y-auto custom-scrollbar space-y-0.5"
+        >
+          {scanLogs.length === 0 && !scanActive && (
+            <div className="text-[#475569] text-xs font-mono text-center py-4 animate-pulse">
+              Select a project above to start scanning...
+            </div>
+          )}
+          {scanLogs.map(log => {
+            const colorMap: Record<string, string> = {
+              INFO: 'text-[#60A5FA]', AGENT: 'text-[#34D399]', WARN: 'text-[#FBBF24]',
+              DANGER: 'text-[#F87171]', SUCCESS: 'text-[#4ADE80]',
+            };
+            const tagBg: Record<string, string> = {
+              INFO: 'bg-blue-900/40 text-blue-300', AGENT: 'bg-emerald-900/40 text-emerald-300',
+              WARN: 'bg-yellow-900/40 text-yellow-300', DANGER: 'bg-red-900/40 text-red-300',
+              SUCCESS: 'bg-green-900/40 text-green-300',
+            };
+            return (
+              <div
+                key={log.id}
+                onClick={() => {
+                  playCyberBlip(900);
+                  setSelectedLogForModal({
+                    id: log.id,
+                    time: log.time,
+                    type: log.type,
+                    tag: log.tag,
+                    message: log.msg,
+                    agent: 'Project Intelligence & AST Parser',
+                    file: 'src/parser.cpp',
+                    line: 142,
+                    details: `Static intelligence event generated during AST analysis of target project ${profile.name}.`,
+                    relatedView: log.tag === 'VULN' ? 'vulnerabilities' : log.tag === 'BUILD' ? 'patch-center' : 'project-intelligence'
+                  });
+                }}
+                className="flex items-start gap-2 font-mono text-[11px] leading-relaxed py-1 px-1.5 rounded hover:bg-[#1E293B] cursor-pointer transition-all animate-fade-in group"
+                title="Click to inspect event details"
+              >
+                <span className="text-[#475569] shrink-0 w-14">{log.time}</span>
+                <span className={`shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${tagBg[log.type] || 'bg-slate-800 text-slate-400'}`}>{log.tag}</span>
+                <span className={`${colorMap[log.type] || 'text-[#94A3B8]'} break-words min-w-0 flex-1`}>{log.msg}</span>
+              </div>
+            );
+          })}
+          {scanActive && (
+            <div className="flex items-center gap-2 font-mono text-[11px] text-[#475569] py-0.5 px-1">
+              <span className="w-2 h-2 rounded-full bg-[#3B82F6] animate-pulse" />
+              <span>analyzing...</span>
+            </div>
+          )}
+        </div>
+      </div>
+
       <DirectoryGraph customGraphData={profile.graphData} onNavigateToView={onNavigate} />
 
       {/* Attack Surface & Ingress Entry Points */}

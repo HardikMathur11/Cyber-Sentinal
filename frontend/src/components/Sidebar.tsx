@@ -60,18 +60,42 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenGuide
 }) => {
   const menuItems = [
-    { id: 'command-center' as NavView, label: 'Command Center', icon: LayoutDashboard, badge: undefined },
-    { id: 'live-operation' as NavView, label: 'Live Security Operation', icon: Activity, badge: 'ACTIVE', badgeColor: 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]' },
-    { id: 'project-intelligence' as NavView, label: 'Project Intelligence', icon: FolderGit2 },
-    { id: 'vulnerabilities' as NavView, label: 'Vulnerability Center', icon: ShieldAlert, badge: `${confirmedVulnCount}`, badgeColor: 'bg-[#FDF2F4] text-[#B22D42] border-[#F7CDD4]' },
-    { id: 'pov' as NavView, label: 'Proof of Vulnerability', icon: ShieldCheck, badge: '10/10', badgeColor: 'bg-[#FEF9F0] text-[#965B0C] border-[#F8E6C8]' },
-    { id: 'patch-center' as NavView, label: 'Patch Center', icon: Wrench },
-    { id: 'verification' as NavView, label: 'Independent Verification', icon: ShieldCheck, badge: 'PASS', badgeColor: 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]' },
-    { id: 'break-my-patch' as NavView, label: 'Break My Patch', icon: Zap },
-    { id: 'regression-performance' as NavView, label: 'Regression & Performance', icon: GitPullRequest },
-    { id: 'time-machine' as NavView, label: 'Security Time Machine', icon: History },
-    { id: 'agent-control' as NavView, label: 'Agent Control Center', icon: Bot, badge: '12', badgeColor: 'bg-[#F0F9FF] text-[#0369A1] border-[#BAE6FD]' },
-    { id: 'certificates' as NavView, label: 'Proof Certificates', icon: Award },
+    {
+      id: 'command-center' as NavView, label: 'Command Center', icon: LayoutDashboard,
+      badge: undefined, description: 'Dashboard & live feed'
+    },
+    {
+      id: 'live-operation' as NavView, label: 'Live Operations', icon: Activity,
+      badge: 'LIVE', badgeColor: 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]',
+      description: 'Pipeline + Agent status'
+    },
+    {
+      id: 'project-intelligence' as NavView, label: 'Project Intelligence', icon: FolderGit2,
+      description: 'Upload & scan projects'
+    },
+    {
+      id: 'vulnerabilities' as NavView, label: 'Vulnerabilities & PoV', icon: ShieldAlert,
+      badge: `${confirmedVulnCount}`, badgeColor: 'bg-[#FDF2F4] text-[#B22D42] border-[#F7CDD4]',
+      description: 'Findings + proof of vuln'
+    },
+    {
+      id: 'patch-center' as NavView, label: 'Patch & Verification', icon: Wrench,
+      badge: 'PASS', badgeColor: 'bg-[#EFF6FF] text-[#1D4ED8] border-[#BFDBFE]',
+      description: 'Patch gen, test & verify'
+    },
+    {
+      id: 'analytics' as NavView, label: 'Analytics & History', icon: GitPullRequest,
+      description: 'Regression, perf, timeline'
+    },
+    {
+      id: 'agent-control' as NavView, label: 'Agent Control', icon: Bot,
+      badge: '12', badgeColor: 'bg-[#F0F9FF] text-[#0369A1] border-[#BAE6FD]',
+      description: '12 autonomous agents'
+    },
+    {
+      id: 'certificates' as NavView, label: 'Proof Certificates', icon: Award,
+      description: 'Cryptographic seals'
+    },
   ];
 
   const renderNavList = (isMobile: boolean = false) => (

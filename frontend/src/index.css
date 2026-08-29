@@ -446,5 +446,37 @@ html, body {
   animation: telemetryGlitch 2s ease-in-out infinite;
 }
 
+/* Fade-in for new log lines */
+@keyframes logLineFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+.animate-fade-in {
+  animation: logLineFadeIn 0.25s ease-out forwards;
+}
 
+/* Terminal custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+}
+
+/* Patch generation progress animation */
+@keyframes patchProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.animate-patch-gen {
+  animation: patchProgress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

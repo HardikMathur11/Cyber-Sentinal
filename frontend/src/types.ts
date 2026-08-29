@@ -12,7 +12,8 @@ export type NavView =
   | 'regression-performance'
   | 'time-machine'
   | 'agent-control'
-  | 'certificates';
+  | 'certificates'
+  | 'analytics';
 
 export type PipelineStageId =
   | 'upload'
