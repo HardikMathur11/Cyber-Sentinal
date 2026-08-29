@@ -137,7 +137,7 @@ export const SyntaxCodeBlock: React.FC<SyntaxCodeBlockProps> = ({
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/70" />
             <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]/70" />
-            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB]/70" />
           </div>
 
           {title && (

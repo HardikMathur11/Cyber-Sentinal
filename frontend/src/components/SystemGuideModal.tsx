@@ -254,24 +254,24 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
   const selectedGuideItem = viewsGuide.find((v) => v.id === selectedFeatureId) || viewsGuide[0];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#080C14]/60 backdrop-blur-sm font-sans animate-fade-in">
-      <div className="bg-[#FFFFFF] border border-[#DFE4D8] rounded-2xl shadow-[0_16px_48px_rgba(20,30,20,0.18)] w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-[#080C14]/60 backdrop-blur-sm font-sans animate-fade-in">
+      <div className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl shadow-[0_16px_48px_rgba(20,30,20,0.18)] w-full max-w-5xl max-h-[92dvh] flex flex-col overflow-hidden">
         {/* Modal Header */}
-        <div className="p-5 border-b border-[#DFE4D8] flex items-center justify-between bg-[#FAFBF7]">
+        <div className="p-5 border-b border-[#E2E8F0] flex items-center justify-between bg-[#F8FAFD]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#F1F8EC] border border-[#D1E7C4] flex items-center justify-center text-[#43881E] shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] shadow-sm">
               <HelpCircle className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-[#1E2621]">
+                <h3 className="text-base font-bold text-[#0F172A]">
                   SENTINEL-CHAIN System Guide & AI Health Diagnostics
                 </h3>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F1F8EC] text-[#377218] border border-[#D1E7C4]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]">
                   v4.2.0 INDUSTRIAL
                 </span>
               </div>
-              <p className="text-xs text-[#586459] mt-0.5">
+              <p className="text-xs text-[#475569] mt-0.5">
                 Understand the purpose of every module and test live autonomous agents in real-time.
               </p>
             </div>
@@ -282,14 +282,14 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
               playCyberBlip(700);
               onClose();
             }}
-            className="p-2 rounded-xl text-[#818D82] hover:text-[#1E2621] hover:bg-[#F3F6EE] transition-colors"
+            className="p-2 rounded-xl text-[#64748B] hover:text-[#0F172A] hover:bg-[#F0F4FA] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Tabs */}
-        <div className="flex items-center gap-4 px-4 sm:px-6 pt-3 border-b border-[#DFE4D8] bg-[#FFFFFF] text-xs font-semibold overflow-x-auto no-scrollbar whitespace-nowrap">
+        <div className="flex items-center gap-4 px-4 sm:px-6 pt-3 border-b border-[#E2E8F0] bg-[#FFFFFF] text-xs font-semibold overflow-x-auto no-scrollbar whitespace-nowrap">
           <button
             onClick={() => {
               playCyberBlip(750);
@@ -297,8 +297,8 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
             }}
             className={`pb-3 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
               activeTab === 'purpose'
-                ? 'border-[#43881E] text-[#43881E] font-bold'
-                : 'border-transparent text-[#586459] hover:text-[#1E2621]'
+                ? 'border-[#2563EB] text-[#2563EB] font-bold'
+                : 'border-transparent text-[#475569] hover:text-[#0F172A]'
             }`}
           >
             <Compass className="w-4 h-4" />
@@ -312,8 +312,8 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
             }}
             className={`pb-3 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
               activeTab === 'ai_status'
-                ? 'border-[#43881E] text-[#43881E] font-bold'
-                : 'border-transparent text-[#586459] hover:text-[#1E2621]'
+                ? 'border-[#2563EB] text-[#2563EB] font-bold'
+                : 'border-transparent text-[#475569] hover:text-[#0F172A]'
             }`}
           >
             <Cpu className="w-4 h-4" />
@@ -327,8 +327,8 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
             }}
             className={`pb-3 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
               activeTab === 'workflow'
-                ? 'border-[#43881E] text-[#43881E] font-bold'
-                : 'border-transparent text-[#586459] hover:text-[#1E2621]'
+                ? 'border-[#2563EB] text-[#2563EB] font-bold'
+                : 'border-transparent text-[#475569] hover:text-[#0F172A]'
             }`}
           >
             <Sparkles className="w-4 h-4" />
@@ -355,22 +355,22 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
                       }}
                       className={`w-full p-3 rounded-xl border text-left transition-all flex items-center gap-3 ${
                         isSelected
-                          ? 'border-[#43881E] bg-[#F1F8EC] text-[#1E2621] font-bold shadow-xs'
-                          : 'border-[#DFE4D8] bg-[#FFFFFF] hover:bg-[#FAFBF7] text-[#4E594F]'
+                          ? 'border-[#2563EB] bg-[#EFF6FF] text-[#0F172A] font-bold shadow-xs'
+                          : 'border-[#E2E8F0] bg-[#FFFFFF] hover:bg-[#F8FAFD] text-[#334155]'
                       }`}
                     >
                       <div
                         className={`p-2 rounded-lg border shrink-0 ${
                           isSelected
-                            ? 'bg-[#FFFFFF] border-[#D1E7C4] text-[#43881E]'
-                            : 'bg-[#FAFBF7] border-[#DFE4D8] text-[#818D82]'
+                            ? 'bg-[#FFFFFF] border-[#BFDBFE] text-[#2563EB]'
+                            : 'bg-[#F8FAFD] border-[#E2E8F0] text-[#64748B]'
                         }`}
                       >
                         <Icon className="w-4 h-4" />
                       </div>
                       <div className="truncate">
                         <div className="text-xs font-bold truncate">{item.name}</div>
-                        <div className="text-[10px] text-[#818D82] uppercase font-semibold">{item.tag}</div>
+                        <div className="text-[10px] text-[#64748B] uppercase font-semibold">{item.tag}</div>
                       </div>
                     </button>
                   );
@@ -378,35 +378,35 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
               </div>
 
               {/* Right View Detailed Explanation (7 cols) */}
-              <div className="md:col-span-7 bg-[#FAFBF7] p-5 rounded-2xl border border-[#DFE4D8] space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-[#DFE4D8]">
+              <div className="md:col-span-7 bg-[#F8FAFD] p-5 rounded-2xl border border-[#E2E8F0] space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
                   <div className="flex items-center gap-2">
-                    <selectedGuideItem.icon className="w-5 h-5 text-[#43881E]" />
-                    <h4 className="text-base font-bold text-[#1E2621]">{selectedGuideItem.name}</h4>
+                    <selectedGuideItem.icon className="w-5 h-5 text-[#2563EB]" />
+                    <h4 className="text-base font-bold text-[#0F172A]">{selectedGuideItem.name}</h4>
                   </div>
-                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#F0F8F9] text-[#20626D] border border-[#C7E5E9]">
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#F0F9FF] text-[#0369A1] border border-[#BAE6FD]">
                     {selectedGuideItem.tag}
                   </span>
                 </div>
 
                 <div className="space-y-3 text-xs">
                   <div>
-                    <span className="text-[#818D82] font-bold uppercase text-[10px] block mb-1">MODULE PURPOSE:</span>
-                    <p className="text-[#1E2621] leading-relaxed font-medium bg-[#FFFFFF] p-3 rounded-xl border border-[#DFE4D8]">
+                    <span className="text-[#64748B] font-bold uppercase text-[10px] block mb-1">MODULE PURPOSE:</span>
+                    <p className="text-[#0F172A] leading-relaxed font-medium bg-[#FFFFFF] p-3 rounded-xl border border-[#E2E8F0]">
                       {selectedGuideItem.summary}
                     </p>
                   </div>
 
                   <div>
-                    <span className="text-[#43881E] font-bold uppercase text-[10px] block mb-1">WHAT YOU CAN DO HERE:</span>
-                    <p className="text-[#4E594F] leading-relaxed font-medium bg-[#FFFFFF] p-3 rounded-xl border border-[#DFE4D8]">
+                    <span className="text-[#2563EB] font-bold uppercase text-[10px] block mb-1">WHAT YOU CAN DO HERE:</span>
+                    <p className="text-[#334155] leading-relaxed font-medium bg-[#FFFFFF] p-3 rounded-xl border border-[#E2E8F0]">
                       {selectedGuideItem.whatToDo}
                     </p>
                   </div>
 
                   <div>
-                    <span className="text-[#20626D] font-bold uppercase text-[10px] block mb-1">HOW TO VERIFY / TEST IT:</span>
-                    <p className="text-[#20626D] leading-relaxed font-medium bg-[#F0F8F9] p-3 rounded-xl border border-[#C7E5E9]">
+                    <span className="text-[#0369A1] font-bold uppercase text-[10px] block mb-1">HOW TO VERIFY / TEST IT:</span>
+                    <p className="text-[#0369A1] leading-relaxed font-medium bg-[#F0F9FF] p-3 rounded-xl border border-[#BAE6FD]">
                       ✓ {selectedGuideItem.howToCheck}
                     </p>
                   </div>
@@ -418,7 +418,7 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
                     onNavigateToView(selectedGuideItem.id);
                     onClose();
                   }}
-                  className="w-full mt-2 py-2.5 rounded-[10px] bg-[#43881E] hover:bg-[#377218] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all"
+                  className="w-full mt-2 py-2.5 rounded-[10px] bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-sm transition-all"
                 >
                   <span>Go to {selectedGuideItem.name} Now</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -431,15 +431,15 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
           {activeTab === 'ai_status' && (
             <div className="space-y-6 text-xs">
               {/* Status Banner */}
-              <div className="p-4 rounded-xl bg-[#F0F8F3] border border-[#C8E6D3] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="p-4 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-[#1E824C] animate-ping" />
+                  <div className="w-3 h-3 rounded-full bg-[#2563EB] animate-ping" />
                   <div>
-                    <div className="text-xs font-bold text-[#17653B] uppercase tracking-wider">
+                    <div className="text-xs font-bold text-[#1D4ED8] uppercase tracking-wider">
                       AUTONOMOUS AGENT SUITE: {aiHealthData?.status || 'OPERATIONAL'}
                     </div>
-                    <p className="text-xs text-[#586459] mt-0.5">
-                      Active LLM Engine: <strong className="text-[#1E2621]">{aiHealthData?.activeProvider}</strong>
+                    <p className="text-xs text-[#475569] mt-0.5">
+                      Active LLM Engine: <strong className="text-[#0F172A]">{aiHealthData?.activeProvider}</strong>
                     </p>
                   </div>
                 </div>
@@ -447,7 +447,7 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
                 <button
                   onClick={checkAiHealth}
                   disabled={checkingAi}
-                  className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#FAFBF7] border border-[#C8E6D3] text-[#17653B] font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#FFFFFF] hover:bg-[#F8FAFD] border border-[#BFDBFE] text-[#1D4ED8] font-semibold flex items-center gap-1.5 shadow-sm transition-all"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${checkingAi ? 'animate-spin' : ''}`} />
                   <span>{checkingAi ? 'Pinging...' : 'Re-check Health'}</span>
@@ -456,27 +456,27 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
 
               {/* 4 Health Diagnostic Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8]">
-                  <span className="text-[10px] text-[#818D82] font-bold uppercase block">COORDINATED AGENTS</span>
-                  <div className="text-xl font-black text-[#1E2621] mt-0.5">{aiHealthData?.agentsCount || 12} Agents</div>
-                  <div className="text-[10px] text-[#1E824C] font-semibold mt-1">✓ All 12 Agents Initialized</div>
+                <div className="p-3.5 rounded-xl bg-[#F8FAFD] border border-[#E2E8F0]">
+                  <span className="text-[10px] text-[#64748B] font-bold uppercase block">COORDINATED AGENTS</span>
+                  <div className="text-xl font-black text-[#0F172A] mt-0.5">{aiHealthData?.agentsCount || 12} Agents</div>
+                  <div className="text-[10px] text-[#2563EB] font-semibold mt-1">✓ All 12 Agents Initialized</div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8]">
-                  <span className="text-[10px] text-[#818D82] font-bold uppercase block">ENGINE LATENCY</span>
-                  <div className="text-xl font-black text-[#2E7F8C] mt-0.5">{aiHealthData?.latencyMs || 24} ms</div>
-                  <div className="text-[10px] text-[#20626D] font-semibold mt-1">Fast Response SLA Passed</div>
+                <div className="p-3.5 rounded-xl bg-[#F8FAFD] border border-[#E2E8F0]">
+                  <span className="text-[10px] text-[#64748B] font-bold uppercase block">ENGINE LATENCY</span>
+                  <div className="text-xl font-black text-[#0369A1] mt-0.5">{aiHealthData?.latencyMs || 24} ms</div>
+                  <div className="text-[10px] text-[#0369A1] font-semibold mt-1">Fast Response SLA Passed</div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8]">
-                  <span className="text-[10px] text-[#818D82] font-bold uppercase block">SANDBOX ENVIRONMENT</span>
-                  <div className="text-xl font-black text-[#43881E] mt-0.5">Tier 3</div>
-                  <div className="text-[10px] text-[#377218] font-semibold mt-1">Docker + GVisor + Seccomp</div>
+                <div className="p-3.5 rounded-xl bg-[#F8FAFD] border border-[#E2E8F0]">
+                  <span className="text-[10px] text-[#64748B] font-bold uppercase block">SANDBOX ENVIRONMENT</span>
+                  <div className="text-xl font-black text-[#2563EB] mt-0.5">Tier 3</div>
+                  <div className="text-[10px] text-[#1D4ED8] font-semibold mt-1">Docker + GVisor + Seccomp</div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FAFBF7] border border-[#DFE4D8]">
-                  <span className="text-[10px] text-[#818D82] font-bold uppercase block">LLM API KEYS</span>
-                  <div className="text-xs font-bold text-[#1E2621] mt-1 space-y-0.5">
+                <div className="p-3.5 rounded-xl bg-[#F8FAFD] border border-[#E2E8F0]">
+                  <span className="text-[10px] text-[#64748B] font-bold uppercase block">LLM API KEYS</span>
+                  <div className="text-xs font-bold text-[#0F172A] mt-1 space-y-0.5">
                     <div>Groq: {aiHealthData?.keysConfigured?.groq ? '✓ Connected' : 'Oracle Fallback'}</div>
                     <div>xAI Grok: {aiHealthData?.keysConfigured?.grok ? '✓ Connected' : 'Oracle Fallback'}</div>
                   </div>
@@ -484,30 +484,30 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
               </div>
 
               {/* Interactive Live AI Inference Test Sandbox */}
-              <div className="p-5 rounded-2xl bg-[#FAFBF7] border border-[#DFE4D8] space-y-3">
-                <div className="flex items-center justify-between pb-2 border-b border-[#DFE4D8]">
+              <div className="p-5 rounded-2xl bg-[#F8FAFD] border border-[#E2E8F0] space-y-3">
+                <div className="flex items-center justify-between pb-2 border-b border-[#E2E8F0]">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-[#43881E]" />
-                    <span className="font-bold text-[#1E2621]">Live AI Cyber-Reasoning Test Oracle</span>
+                    <Sparkles className="w-4 h-4 text-[#2563EB]" />
+                    <span className="font-bold text-[#0F172A]">Live AI Cyber-Reasoning Test Oracle</span>
                   </div>
-                  <span className="text-[10px] font-bold text-[#1E824C] bg-[#F0F8F3] px-2 py-0.5 rounded border border-[#C8E6D3]">
+                  <span className="text-[10px] font-bold text-[#1D4ED8] bg-[#EFF6FF] px-2 py-0.5 rounded border border-[#BFDBFE]">
                     READY TO INFER
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <span className="text-[11px] text-[#586459] font-medium">Input Test Code Snippet:</span>
+                    <span className="text-[11px] text-[#475569] font-medium">Input Test Code Snippet:</span>
                     <textarea
                       value={testPrompt}
                       onChange={(e) => setTestPrompt(e.target.value)}
                       rows={4}
-                      className="w-full p-3 rounded-xl bg-[#080C14] border border-[#1E2638] text-[#E6EDF3] font-mono text-xs focus:outline-none focus:border-[#43881E]"
+                      className="w-full p-3 rounded-xl bg-[#080C14] border border-[#1E2638] text-[#E6EDF3] font-mono text-xs focus:outline-none focus:border-[#2563EB]"
                     />
                     <button
                       onClick={runLiveAiTest}
                       disabled={testingInference}
-                      className="w-full py-2 rounded-[10px] bg-[#43881E] hover:bg-[#377218] text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
+                      className="w-full py-2 rounded-[10px] bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
                     >
                       <Zap className="w-3.5 h-3.5" />
                       <span>{testingInference ? 'Reasoning with AI Engine...' : 'Run Live Cyber-Reasoning Test'}</span>
@@ -552,61 +552,61 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
               </div>
 
               <div className="space-y-3">
-                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] flex items-start gap-3 shadow-2xs">
-                  <div className="w-6 h-6 rounded-full bg-[#F1F8EC] text-[#43881E] font-bold flex items-center justify-center shrink-0 border border-[#D1E7C4]">
+                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] flex items-start gap-3 shadow-2xs">
+                  <div className="w-6 h-6 rounded-full bg-[#EFF6FF] text-[#2563EB] font-bold flex items-center justify-center shrink-0 border border-[#BFDBFE]">
                     1
                   </div>
                   <div>
-                    <div className="font-bold text-[#1E2621]">Upload & Code Architecture Mapping (Project Intelligence)</div>
-                    <div className="text-[#586459] mt-0.5">
+                    <div className="font-bold text-[#0F172A]">Upload & Code Architecture Mapping (Project Intelligence)</div>
+                    <div className="text-[#475569] mt-0.5">
                       The Recon & Attack Surface Agents decompile the C++ project, construct the dynamic dependency graph, and pinpoint untrusted ingress points.
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] flex items-start gap-3 shadow-2xs">
-                  <div className="w-6 h-6 rounded-full bg-[#FDF2F4] text-[#B22D42] font-bold flex items-center justify-center shrink-0 border border-[#F7CDD4]">
+                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] flex items-start gap-3 shadow-2xs">
+                  <div className="w-6 h-6 rounded-full bg-[#FFF1F2] text-[#BE123C] font-bold flex items-center justify-center shrink-0 border border-[#FECDD3]">
                     2
                   </div>
                   <div>
-                    <div className="font-bold text-[#1E2621]">Deterministic PoV Exploit Synthesis (Proof of Vulnerability)</div>
-                    <div className="text-[#586459] mt-0.5">
+                    <div className="font-bold text-[#0F172A]">Deterministic PoV Exploit Synthesis (Proof of Vulnerability)</div>
+                    <div className="text-[#475569] mt-0.5">
                       The Fuzzing & Exploit Validation Agents construct a minimal standalone binary payload (77 bytes) that crashes the target binary 10/10 times under AddressSanitizer.
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] flex items-start gap-3 shadow-2xs">
-                  <div className="w-6 h-6 rounded-full bg-[#F0F8F3] text-[#17653B] font-bold flex items-center justify-center shrink-0 border border-[#C8E6D3]">
+                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] flex items-start gap-3 shadow-2xs">
+                  <div className="w-6 h-6 rounded-full bg-[#EFF6FF] text-[#1D4ED8] font-bold flex items-center justify-center shrink-0 border border-[#BFDBFE]">
                     3
                   </div>
                   <div>
-                    <div className="font-bold text-[#1E2621]">Invariant-Preserving AI Patch Synthesis (Patch Center)</div>
-                    <div className="text-[#586459] mt-0.5">
-                      The Patch Agent synthesizes a patch that enforces strict memory bounds safety without modifying normal functional behavior.
+                    <div className="font-bold text-[#0F172A]">Invariant-Preserving AI Patch Synthesis (Patch Center)</div>
+                    <div className="text-[#475569] mt-0.5">
+                      The Patch Agent synthesizes minimal memory-safe guards (`if (tag_len &gt; 31) return -1;`), eliminating the vulnerability while preserving all functional behavior.
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] flex items-start gap-3 shadow-2xs">
-                  <div className="w-6 h-6 rounded-full bg-[#FEF9F0] text-[#965B0C] font-bold flex items-center justify-center shrink-0 border border-[#F8E6C8]">
+                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] flex items-start gap-3 shadow-2xs">
+                  <div className="w-6 h-6 rounded-full bg-[#FFFBEB] text-[#B45309] font-bold flex items-center justify-center shrink-0 border border-[#FDE68A]">
                     4
                   </div>
                   <div>
-                    <div className="font-bold text-[#1E2621]">Adversarial Attack & Regression Verification (Break My Patch)</div>
-                    <div className="text-[#586459] mt-0.5">
+                    <div className="font-bold text-[#0F172A]">Adversarial Attack & Regression Verification (Break My Patch)</div>
+                    <div className="text-[#475569] mt-0.5">
                       The Break-My-Patch agent mutates inputs 1,250 times attempting to bypass the patch, while the Regression Agent runs all 47 GoogleTest unit tests.
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#DFE4D8] flex items-start gap-3 shadow-2xs">
-                  <div className="w-6 h-6 rounded-full bg-[#F0F8F9] text-[#20626D] font-bold flex items-center justify-center shrink-0 border border-[#C7E5E9]">
+                <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E2E8F0] flex items-start gap-3 shadow-2xs">
+                  <div className="w-6 h-6 rounded-full bg-[#F0F9FF] text-[#0369A1] font-bold flex items-center justify-center shrink-0 border border-[#BAE6FD]">
                     5
                   </div>
                   <div>
-                    <div className="font-bold text-[#1E2621]">Cryptographic Seal & Deployment (Proof Certificates)</div>
-                    <div className="text-[#586459] mt-0.5">
+                    <div className="font-bold text-[#0F172A]">Cryptographic Seal & Deployment (Proof Certificates)</div>
+                    <div className="text-[#475569] mt-0.5">
                       A SHA-256 tamper-proof certificate (SC-2026-001847) is generated and the fix is approved according to the active safety policy.
                     </div>
                   </div>
@@ -617,8 +617,8 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 border-t border-[#DFE4D8] bg-[#FAFBF7] flex items-center justify-between">
-          <div className="text-xs text-[#586459] font-medium">
+        <div className="p-4 border-t border-[#E2E8F0] bg-[#F8FAFD] flex items-center justify-between">
+          <div className="text-xs text-[#475569] font-medium">
             Ready to test live execution? Trigger the full multi-agent demo anytime.
           </div>
           <div className="flex items-center gap-2">
@@ -629,7 +629,7 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
                 onClose();
               }}
               disabled={isRunningDemo}
-              className="px-4 py-2 rounded-[10px] bg-[#43881E] hover:bg-[#377218] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-4 py-2 rounded-[10px] bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-all btn-cyber-blue"
             >
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>{isRunningDemo ? 'DEMO RUNNING...' : 'TRIGGER FULL PIPELINE DEMO'}</span>
@@ -640,7 +640,7 @@ export const SystemGuideModal: React.FC<SystemGuideModalProps> = ({
                 playCyberBlip(700);
                 onClose();
               }}
-              className="px-4 py-2 rounded-[10px] bg-[#FFFFFF] hover:bg-[#F3F6EE] border border-[#DFE4D8] text-[#1E2621] text-xs font-semibold transition-all"
+              className="px-4 py-2 rounded-[10px] bg-[#FFFFFF] hover:bg-[#F8FAFD] border border-[#E2E8F0] text-[#0F172A] text-xs font-semibold transition-all"
             >
               Close
             </button>

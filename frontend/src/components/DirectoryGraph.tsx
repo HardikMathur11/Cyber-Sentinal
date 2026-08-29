@@ -547,32 +547,32 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
         };
       case 'patched':
         return {
-          bg: 'bg-[#FFFFFF] hover:bg-[#F1F8EC]',
-          border: 'border-[#D1E7C4]',
-          borderSelected: 'border-[#43881E] ring-2 ring-[#43881E]/40',
-          text: 'text-[#377218]',
-          badge: 'bg-[#F1F8EC] text-[#377218] border border-[#D1E7C4]',
-          dot: 'bg-[#43881E]',
-          glow: 'shadow-[0_4px_16px_rgba(67,136,30,0.12)]'
+          bg: 'bg-[#FFFFFF] hover:bg-[#EFF6FF]',
+          border: 'border-[#BFDBFE]',
+          borderSelected: 'border-[#2563EB] ring-2 ring-[#2563EB]/40',
+          text: 'text-[#1D4ED8]',
+          badge: 'bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]',
+          dot: 'bg-[#2563EB]',
+          glow: 'shadow-[0_4px_16px_rgba(37,99,235,0.12)]'
         };
       case 'verified':
         return {
-          bg: 'bg-[#FFFFFF] hover:bg-[#F0F8F3]',
-          border: 'border-[#C8E6D3]',
-          borderSelected: 'border-[#1E824C] ring-2 ring-[#1E824C]/40',
-          text: 'text-[#17653B]',
-          badge: 'bg-[#F0F8F3] text-[#17653B] border border-[#C8E6D3]',
-          dot: 'bg-[#1E824C]',
-          glow: 'shadow-[0_4px_16px_rgba(30,130,76,0.12)]'
+          bg: 'bg-[#FFFFFF] hover:bg-[#EFF6FF]',
+          border: 'border-[#BFDBFE]',
+          borderSelected: 'border-[#2563EB] ring-2 ring-[#2563EB]/40',
+          text: 'text-[#1D4ED8]',
+          badge: 'bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]',
+          dot: 'bg-[#2563EB]',
+          glow: 'shadow-[0_4px_16px_rgba(37,99,235,0.12)]'
         };
       default:
         return {
-          bg: 'bg-[#FFFFFF] hover:bg-[#FAFBF7]',
-          border: 'border-[#DFE4D8]',
-          borderSelected: 'border-[#43881E] ring-2 ring-[#43881E]/30',
-          text: 'text-[#1E2621]',
-          badge: 'bg-[#FAFBF7] text-[#586459] border border-[#DFE4D8]',
-          dot: 'bg-[#818D82]',
+          bg: 'bg-[#FFFFFF] hover:bg-[#F8FAFD]',
+          border: 'border-[#E2E8F0]',
+          borderSelected: 'border-[#2563EB] ring-2 ring-[#2563EB]/30',
+          text: 'text-[#0F172A]',
+          badge: 'bg-[#F8FAFD] text-[#475569] border border-[#E2E8F0]',
+          dot: 'bg-[#64748B]',
           glow: 'shadow-[0_2px_8px_rgba(30,40,25,0.04)]'
         };
     }
@@ -581,29 +581,29 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
   return (
     <div id="directory-graph-container" className="space-y-4 font-sans">
       {/* Top Toolbar */}
-      <div className="bg-[#FFFFFF] p-5 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)]">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#DFE4D8]">
+      <div className="bg-[#FFFFFF] p-5 border border-[#E2E8F0] rounded-[14px] shadow-[0_2px_10px_rgba(15,23,42,0.05)]">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#E2E8F0]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#F1F8EC] border border-[#D1E7C4] flex items-center justify-center text-[#43881E] shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] shadow-sm">
               <FolderTree className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-[#1E2621]">
+                <h3 className="text-base font-bold text-[#0F172A]">
                   Project Architecture & Directory Hierarchy Graph
                 </h3>
-                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F1F8EC] text-[#377218] border border-[#D1E7C4]">
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#EFF6FF] text-[#1D4ED8] border border-[#BFDBFE]">
                   Zero-Collision Trunk Tree • {visibleNodes.length} Nodes Active
                 </span>
               </div>
-              <p className="text-xs text-[#586459] mt-0.5">
+              <p className="text-xs text-[#475569] mt-0.5">
                 Topological folder spines, orthogonal non-overlapping branches, AST symbol inspection, and animated attack propagation traces.
               </p>
             </div>
           </div>
 
           {/* Graph Mode Buttons */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-[#FAFBF7] border border-[#DFE4D8] rounded-xl p-1 text-xs">
+          <div className="flex flex-wrap items-center gap-1.5 bg-[#F8FAFD] border border-[#E2E8F0] rounded-xl p-1 text-xs">
             <button
               onClick={() => {
                 playCyberBlip(750);
@@ -611,8 +611,8 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               }}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 ${
                 activeGraphMode === 'tree_hierarchy'
-                  ? 'bg-[#43881E] text-white shadow-sm font-bold'
-                  : 'text-[#586459] hover:text-[#1E2621] hover:bg-[#F3F6EE]'
+                  ? 'bg-[#2563EB] text-white shadow-sm font-bold btn-cyber-blue'
+                  : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#EFF6FF]'
               }`}
             >
               <FolderTree className="w-3.5 h-3.5" />
@@ -626,8 +626,8 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               }}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 ${
                 activeGraphMode === 'taint_path'
-                  ? 'bg-[#D9485D] text-white shadow-sm font-bold'
-                  : 'text-[#586459] hover:text-[#1E2621] hover:bg-[#F3F6EE]'
+                  ? 'bg-[#E11D48] text-white shadow-sm font-bold'
+                  : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#EFF6FF]'
               }`}
             >
               <Flame className="w-3.5 h-3.5" />
@@ -641,8 +641,8 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               }}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 ${
                 activeGraphMode === 'call_graph'
-                  ? 'bg-[#2E7F8C] text-white shadow-sm font-bold'
-                  : 'text-[#586459] hover:text-[#1E2621] hover:bg-[#F3F6EE]'
+                  ? 'bg-[#0284C7] text-white shadow-sm font-bold'
+                  : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#EFF6FF]'
               }`}
             >
               <Network className="w-3.5 h-3.5" />
@@ -656,8 +656,8 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               }}
               className={`px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1.5 ${
                 activeGraphMode === 'tree_list'
-                  ? 'bg-[#1E824C] text-white shadow-sm font-bold'
-                  : 'text-[#586459] hover:text-[#1E2621] hover:bg-[#F3F6EE]'
+                  ? 'bg-[#1D4ED8] text-white shadow-sm font-bold'
+                  : 'text-[#475569] hover:text-[#0F172A] hover:bg-[#EFF6FF]'
               }`}
             >
               <Code2 className="w-3.5 h-3.5" />
@@ -676,7 +676,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search file, symbol, or folder..."
-                className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-[#FAFBF7] border border-[#DFE4D8] text-xs text-[#1E2621] placeholder-[#818D82] focus:outline-none focus:border-[#43881E] transition-all"
+                className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-[#F8FAFD] border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#2563EB] transition-all"
               />
             </div>
 
@@ -821,21 +821,21 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               <div className="absolute bottom-3 right-3 z-30 flex items-center gap-1.5 bg-[#FFFFFF]/95 backdrop-blur-md border border-[#DFE4D8] rounded-xl p-1.5 shadow-md">
                 <button
                   onClick={() => setZoomLevel((z) => Math.min(1.6, z + 0.15))}
-                  className="p-2 rounded-lg bg-[#FAFBF7] hover:bg-[#F1F8EC] text-[#1E2621] border border-[#DFE4D8] shadow-2xs text-xs font-bold active:scale-95 transition-all"
-                  title="Zoom In"
+                  className="p-2 rounded-lg bg-[#F8FAFD] hover:bg-[#EFF6FF] text-[#0F172A] border border-[#E2E8F0] shadow-2xs text-xs font-bold active:scale-95 transition-all"
+                  title="Zoom In (+)"
                 >
-                  <ZoomIn className="w-4 h-4 text-[#43881E]" />
+                  <ZoomIn className="w-4 h-4 text-[#2563EB]" />
                 </button>
                 <button
                   onClick={() => setZoomLevel((z) => Math.max(0.4, z - 0.15))}
-                  className="p-2 rounded-lg bg-[#FAFBF7] hover:bg-[#F1F8EC] text-[#1E2621] border border-[#DFE4D8] shadow-2xs text-xs font-bold active:scale-95 transition-all"
-                  title="Zoom Out"
+                  className="p-2 rounded-lg bg-[#F8FAFD] hover:bg-[#EFF6FF] text-[#0F172A] border border-[#E2E8F0] shadow-2xs text-xs font-bold active:scale-95 transition-all"
+                  title="Zoom Out (-)"
                 >
-                  <ZoomOut className="w-4 h-4 text-[#586459]" />
+                  <ZoomOut className="w-4 h-4 text-[#475569]" />
                 </button>
                 <button
                   onClick={handleResetView}
-                  className="p-2 rounded-lg bg-[#FAFBF7] hover:bg-[#F1F8EC] text-[#1E2621] border border-[#DFE4D8] shadow-2xs text-xs font-bold active:scale-95 transition-all"
+                  className="p-2 rounded-lg bg-[#F8FAFD] hover:bg-[#EFF6FF] text-[#0F172A] border border-[#E2E8F0] shadow-2xs text-xs font-bold active:scale-95 transition-all"
                   title="Reset Canvas Position"
                 >
                   <RefreshCw className="w-4 h-4 text-[#2E7F8C]" />
@@ -894,7 +894,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                         strokeOpacity="0.85"
                       />
                       {/* Anchor dot on spine top */}
-                      <circle cx={spine.spineX} cy={spine.startY} r="3" fill="#43881E" />
+                      <circle cx={spine.spineX} cy={spine.startY} r="3" fill="#2563EB" />
                     </g>
                   ))}
 
@@ -911,7 +911,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                     const strokeColor = isTaintEdge
                       ? 'url(#taintFlowGradient)'
                       : isRootBranch
-                      ? '#43881E'
+                      ? '#2563EB'
                       : isBranch
                       ? '#6B8E5F'
                       : '#818D82';
@@ -995,15 +995,15 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                         {/* Card Header */}
                         <div className="flex items-center justify-between mb-1.5">
                           <div className="flex items-center gap-2 truncate">
-                            <div className="p-1 rounded-md bg-[#FAFBF7] border border-[#DFE4D8] shrink-0 shadow-2xs">
+                            <div className="p-1 rounded-md bg-[#F8FAFD] border border-[#E2E8F0] shrink-0 shadow-2xs">
                               {isRoot ? (
-                                <FolderTree className="w-4 h-4 text-[#43881E]" />
+                                <FolderTree className="w-4 h-4 text-[#2563EB]" />
                               ) : isDirectory ? (
-                                expandedFolderMap[node.id] !== false ? <FolderOpen className="w-3.5 h-3.5 text-[#43881E]" /> : <Folder className="w-3.5 h-3.5 text-[#2E7F8C]" />
+                                expandedFolderMap[node.id] !== false ? <FolderOpen className="w-3.5 h-3.5 text-[#2563EB]" /> : <Folder className="w-3.5 h-3.5 text-[#0284C7]" />
                               ) : node.type === 'test' || node.type === 'payload' ? (
-                                <ShieldAlert className="w-3.5 h-3.5 text-[#C27918]" />
+                                <ShieldAlert className="w-3.5 h-3.5 text-[#B45309]" />
                               ) : (
-                                <FileCode className="w-3.5 h-3.5 text-[#43881E]" />
+                                <FileCode className="w-3.5 h-3.5 text-[#2563EB]" />
                               )}
                             </div>
                             <span className={`text-xs font-bold truncate ${colorConfig.text}`}>
@@ -1015,30 +1015,30 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                             <span className="relative flex h-3 w-3 shrink-0">
                               <span
                                 className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                                  isVulnerable ? 'bg-[#D9485D]' : 'bg-[#C27918]'
+                                  isVulnerable ? 'bg-[#BE123C]' : 'bg-[#B45309]'
                                 }`}
                               />
                               <span
                                 className={`relative inline-flex rounded-full h-3 w-3 ${
-                                  isVulnerable ? 'bg-[#D9485D]' : 'bg-[#C27918]'
+                                  isVulnerable ? 'bg-[#BE123C]' : 'bg-[#B45309]'
                                 }`}
                               />
                             </span>
                           )}
 
                           {isPatched && (
-                            <ShieldCheck className="w-3.5 h-3.5 text-[#43881E] shrink-0" />
+                            <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB] shrink-0" />
                           )}
                         </div>
 
                         {/* Folder Expansion Toggle Badge / File LoC */}
-                        <div className="flex items-center justify-between text-[10px] text-[#586459] pt-1.5 border-t border-[#DFE4D8]/80 font-medium">
+                        <div className="flex items-center justify-between text-[10px] text-[#475569] pt-1.5 border-t border-[#E2E8F0]/80 font-medium">
                           {isDirectory && !isRoot ? (
                             <div className="flex items-center justify-between w-full">
-                              <span className="text-[#43881E] font-semibold">
+                              <span className="text-[#2563EB] font-semibold">
                                 {expandedFolderMap[node.id] !== false ? '▼ Open' : '▶ Expand'}
                               </span>
-                              <span className="bg-[#FAFBF7] px-1.5 py-0.5 rounded border border-[#DFE4D8] font-bold">
+                              <span className="bg-[#F8FAFD] px-1.5 py-0.5 rounded border border-[#E2E8F0] font-bold">
                                 {childrenCount} files
                               </span>
                             </div>
@@ -1061,25 +1061,25 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
               </div>
 
               {/* Viewport Overlay */}
-              <div className="absolute bottom-4 left-4 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#DFE4D8] rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-[#586459] shadow-sm pointer-events-none">
-                <Move className="w-3.5 h-3.5 text-[#43881E]" />
+              <div className="absolute bottom-4 left-4 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E2E8F0] rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-[#475569] shadow-sm pointer-events-none">
+                <Move className="w-3.5 h-3.5 text-[#2563EB]" />
                 <span>Tree Spine Layout • Click any node to open full source code below • Drag to pan</span>
               </div>
             </div>
           ) : (
             /* File Explorer View */
-            <div className="flex-1 w-full bg-[#FAFBF7] rounded-xl border border-[#DFE4D8] p-5 text-xs overflow-y-auto font-sans">
-              <div className="text-xs font-bold text-[#586459] uppercase pb-2 mb-3 border-b border-[#DFE4D8]">
+            <div className="flex-1 w-full bg-[#F8FAFD] rounded-xl border border-[#E2E8F0] p-5 text-xs overflow-y-auto font-sans">
+              <div className="text-xs font-bold text-[#475569] uppercase pb-2 mb-3 border-b border-[#E2E8F0]">
                 PROJECT REPOSITORY DIRECTORY STRUCTURE
               </div>
 
               <div className="space-y-3">
-                <div className="flex items-center gap-2 font-bold text-sm text-[#1E2621]">
-                  <FolderOpen className="w-4 h-4 text-[#43881E]" />
+                <div className="flex items-center gap-2 font-bold text-sm text-[#0F172A]">
+                  <FolderOpen className="w-4 h-4 text-[#2563EB]" />
                   <span>{normalizedStructure.root.label}</span>
                 </div>
 
-                <div className="pl-4 space-y-2 border-l-2 border-[#DFE4D8]">
+                <div className="pl-4 space-y-2 border-l-2 border-[#E2E8F0]">
                   {normalizedStructure.folders.map((folder) => {
                     const isExpanded = expandedFolderMap[folder.id] !== false;
                     const children = normalizedStructure.filesByFolder[folder.id] || [];
@@ -1087,30 +1087,30 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                       <div key={folder.id} className="space-y-1">
                         <button
                           onClick={() => toggleFolder(folder.id)}
-                          className="flex items-center gap-2 font-bold text-[#1E2621] hover:text-[#43881E] py-1"
+                          className="flex items-center gap-2 font-bold text-[#0F172A] hover:text-[#2563EB] py-1"
                         >
-                          {isExpanded ? <ChevronDown className="w-3.5 h-3.5 text-[#818D82]" /> : <ChevronRight className="w-3.5 h-3.5 text-[#818D82]" />}
-                          <Folder className="w-3.5 h-3.5 text-[#2E7F8C]" />
+                          {isExpanded ? <ChevronDown className="w-3.5 h-3.5 text-[#64748B]" /> : <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />}
+                          <Folder className="w-3.5 h-3.5 text-[#0284C7]" />
                           <span>{folder.label}</span>
-                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#FAFBF7] text-[#586459] border border-[#DFE4D8]">
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#F8FAFD] text-[#475569] border border-[#E2E8F0]">
                             {children.length} files
                           </span>
                         </button>
 
                         {isExpanded && (
-                          <div className="pl-6 space-y-1 border-l border-[#DFE4D8]">
+                          <div className="pl-6 space-y-1 border-l border-[#E2E8F0]">
                             {children.map((file) => (
                               <button
                                 key={file.id}
                                 onClick={() => handleNodeClick(file)}
                                 className={`w-full flex items-center justify-between p-2 rounded-lg text-left transition-all ${
                                   file.id === selectedNodeId
-                                    ? 'bg-[#F1F8EC] text-[#1E2621] font-bold border border-[#D1E7C4]'
-                                    : 'text-[#586459] hover:bg-[#FFFFFF]'
+                                    ? 'bg-[#EFF6FF] text-[#0F172A] font-bold border border-[#BFDBFE]'
+                                    : 'text-[#475569] hover:bg-[#FFFFFF]'
                                 }`}
                               >
                                 <div className="flex items-center gap-2">
-                                  <FileCode className="w-3.5 h-3.5 text-[#43881E]" />
+                                  <FileCode className="w-3.5 h-3.5 text-[#2563EB]" />
                                   <span>{file.label}</span>
                                 </div>
                                 <span className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase ${getNodeColor(file).badge}`}>
@@ -1129,34 +1129,34 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
           )}
 
           {/* Graph Legend */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3.5 mt-3 border-t border-[#DFE4D8] text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3.5 mt-3 border-t border-[#E2E8F0] text-xs">
             <div className="flex items-center gap-4">
-              <span className="text-[#586459] font-semibold">Legend:</span>
+              <span className="text-[#475569] font-semibold">Legend:</span>
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#43881E]" />
-                <span className="text-[#43881E] font-semibold">Root / Folder</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB]" />
+                <span className="text-[#2563EB] font-semibold">Root / Folder</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#D9485D]" />
-                <span className="text-[#B22D42] font-semibold">Vulnerability Site</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#BE123C]" />
+                <span className="text-[#BE123C] font-semibold">Vulnerability Site</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#C27918]" />
-                <span className="text-[#965B0C] font-semibold">Tainted Ingress</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#B45309]" />
+                <span className="text-[#B45309] font-semibold">Tainted Ingress</span>
               </div>
             </div>
 
-            <div className="text-[#818D82] text-[11px] font-medium">
+            <div className="text-[#64748B] text-[11px] font-medium">
               Orthogonal spine branches • Click any folder card to toggle its files
             </div>
           </div>
         </div>
 
         {/* Dedicated Full-Width Code Studio & AST Inspector Panel */}
-        <div className="w-full bg-[#FFFFFF] p-6 border border-[#DFE4D8] rounded-[14px] shadow-[0_2px_10px_rgba(30,40,25,0.05)] space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#DFE4D8] gap-3">
+        <div className="w-full bg-[#FFFFFF] p-6 border border-[#E2E8F0] rounded-[14px] shadow-[0_2px_10px_rgba(15,23,42,0.05)] space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#E2E8F0] gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#F0F8F3] border border-[#C8E6D3] flex items-center justify-center text-[#43881E]">
+              <div className="w-9 h-9 rounded-xl bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB]">
                 <Code2 className="w-5 h-5" />
               </div>
               <div>
@@ -1226,7 +1226,7 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                 </div>
                 <div className="p-3 rounded-lg bg-[#FAFBF7] border border-[#DFE4D8]">
                   <span className="text-[10px] text-[#818D82] block font-bold">RISK EVALUATION</span>
-                  <span className={`text-base font-bold ${selectedNode.status === 'vulnerable' ? 'text-[#B22D42]' : 'text-[#377218]'}`}>
+                  <span className={`text-base font-bold ${selectedNode.status === 'vulnerable' ? 'text-[#BE123C]' : 'text-[#1D4ED8]'}`}>
                     {selectedNode.status === 'vulnerable' ? '8.8 / 10' : '0.0 / 10'}
                   </span>
                 </div>
@@ -1239,10 +1239,10 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
                     {selectedNode.functions.map((fn, idx) => (
                       <div
                         key={idx}
-                        className="text-xs px-3 py-1.5 rounded-lg bg-[#FAFBF7] border border-[#DFE4D8] text-[#1E2621] flex items-center justify-between font-mono font-medium"
+                        className="text-xs px-3 py-1.5 rounded-lg bg-[#F8FAFD] border border-[#E2E8F0] text-[#0F172A] flex items-center justify-between font-mono font-medium"
                       >
                         <span>{fn}</span>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#43881E]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#2563EB]" />
                       </div>
                     ))}
                   </div>
@@ -1253,8 +1253,8 @@ export const DirectoryGraph: React.FC<DirectoryGraphProps> = ({
             {/* Right Col: Full Spacious Code Block (8 cols) */}
             <div className="lg:col-span-8 space-y-1.5">
               <div className="flex items-center justify-between text-xs pb-1">
-                <span className="text-[#586459] font-mono font-bold flex items-center gap-1.5">
-                  <FileCode className="w-4 h-4 text-[#43881E]" />
+                <span className="text-[#475569] font-mono font-bold flex items-center gap-1.5">
+                  <FileCode className="w-4 h-4 text-[#2563EB]" />
                   <span>{selectedNode.path || selectedNode.label}</span>
                 </span>
                 <span className="text-xs text-[#818D82]">

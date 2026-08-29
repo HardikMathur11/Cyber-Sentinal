@@ -306,7 +306,7 @@ export default function App() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#F3F6EE] text-[#1E2621] font-sans antialiased selection:bg-[#43881E] selection:text-white">
+    <div className="flex flex-col h-[100dvh] w-full overflow-hidden bg-[#F0F4FA] text-[#0F172A] font-sans antialiased selection:bg-[#2563EB] selection:text-white">
       {/* Full-Width Top Header: Brand Name in Top-Left */}
       <Header
         safetyMode={safetyMode}
@@ -333,10 +333,15 @@ export default function App() {
           llmProvider="Sentinel Cyber-Reasoning Engine"
           isMobileOpen={mobileSidebarOpen}
           onCloseMobile={() => setMobileSidebarOpen(false)}
+          safetyMode={safetyMode}
+          onSelectSafetyMode={setSafetyMode}
+          onTriggerDemo={handleTriggerDemo}
+          isRunningDemo={isSimulatingLiveRun}
+          onOpenGuide={() => setIsGuideOpen(true)}
         />
 
         {/* View Router Body with Smooth Cyber View Transitions */}
-        <main className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-6 lg:p-7 custom-scrollbar bg-[#F3F6EE] min-w-0 w-full">
+        <main className="flex-1 overflow-y-auto p-2.5 sm:p-5 md:p-6 lg:p-7 custom-scrollbar bg-[#F0F4FA] min-w-0 w-full">
           <div key={currentView} className="w-full max-w-[1720px] mx-auto space-y-4 sm:space-y-6 min-w-0 animate-view-fade">
             {currentView === 'command-center' && (
               <CommandCenterView
